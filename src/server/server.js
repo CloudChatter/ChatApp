@@ -9,7 +9,7 @@ io.on('connection', (socket) => {
   console.log('socket.io is connected on the server')
   socket.on('message', data => {
     console.log('message on the server', data)
-    io.emit('message', data)
+    io.emit('newMessage', data)
   })
 })
 
