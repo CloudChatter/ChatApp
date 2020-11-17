@@ -1,20 +1,28 @@
 import React, { Component, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { render } from "react-dom";
-import WordCloud from "react-d3-cloud";
-import { text } from 'express';
+import ReactWordcloud from 'react-wordcloud';
 
-export const WorldCloudContainer = (props) => {
+// import 'tippy.js/dist/tippy.css';
+// import 'tippy.js/animations/scale.css';
+
+const WordCloudContainer = () => {
   const messages = useSelector(state => state.messages.messages)
   const [wordCountData, setWordCountData] = useState([])
-  const [newWordsAdded, setNewWordsAdded] = useState(false)
+  // const [newWordsAdded, setNewWordsAdded] = useState(false)
 
+  
+  useEffect(() => {
+    setWordCountData(makeWordCountData())
+  }, [messages])
+
+  const wordsToOmit = ["and", "the", "that", 'have', 'with', 'you', 'this', 'but', 'from', 'they', 'would', 'there', 'their', 'what', 'about', 'when', 'make']
   const makeWordCountData = () => {
     const wordCount = {}
-    for (let msg of messages) {
-      const words = msg.split(" ")
+    console.log("messages:", messages)
+    for (let { content } of messages) {
+      const words = content.split(" ")
       for (let word of words) {
-        if (word.length > 4) {
+        if (word.length > 2 && !wordsToOmit.includes(word)) {
           wordCount[word] = wordCount[word] ? wordCount[word] + 1 : 1;
         }
       }
@@ -26,46 +34,21 @@ export const WorldCloudContainer = (props) => {
     }
     return data;
   }
-
-
-  // this useEffect will run every time messages updates.
-  // useEffect(() => {
-  //   if (!newWordsAdded) return;
-  //   setNewWordsAdded(true)
-  //   setTimeout(() => {
-  //     setNewWordsAdded(false)
-  //   }, 5000)
-  //   const newWordData = makeWordCountData()
-  //   setWordCountData(newWordData)
-  // }, [])
-
-  // useEffect(() => {
-  //   setNewWordsAdded(true)
-  //   setTimeout(() => {
-  //     setNewWordsAdded(false)
-  //   }, 5000)
-  // }. [messages])
-
-  // // this useEffect will run as the component mounts. it will create a listener
-  // useEffect(() => {
-    
-  // }, 5000)
-
-  useEffect(() => {
-    setWordCountData(makeWordCountData())
-  }, [messages])
-
+  
+  // console.log('inside word cloud container')
   const fontSizeMapper = word => Math.log2(word.value) * 5;
   const rotate = word => word.value % 360;
   const onWordMouseOver = word => alert(word);
+
   return (
-    <WordCloud 
-    data={wordCountData}
-    fontSizeMapper={fontSizeMapper}
+    <div style={{border: '2px solid lightgrey'}}>
+    <ReactWordcloud
+    words={wordCountData}
     rotate = {rotate}
     onWordMouseOver={onWordMouseOver}
     />
+    </div>
   )
 }
 
-export default WorldCloudContainer;
+export default WordCloudContainer;
