@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import io from 'socket.io-client'
-const socket = io('http://localhost:3000');
+const socket = io();
 
 
 export const Chat = () => {
@@ -12,13 +12,10 @@ export const Chat = () => {
   let value = useSelector(state => state.inputText)
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    socket.on('connection', () => {
-      console.log('connected client side!')
-      socket.on('message', data => {
-        dispatch({ type: 'addMessage', payload: { data } })
-      })
-    })
+  socket.on('message', (data) => {
+    console.log('connected client side!')
+    console.log(data)
+    dispatch({ type: 'addMessage', payload: { data } })
   })
 
   function handleChange(e) {
@@ -34,7 +31,6 @@ export const Chat = () => {
     e.preventDefault()
     const data = {
       text: value,
-      username: currentState.username,
       dateCreated: Date.now()
     }
 

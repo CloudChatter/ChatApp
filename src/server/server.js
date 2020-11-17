@@ -5,13 +5,12 @@ const io = require('socket.io')(server)
 const path = require('path')
 
 
-io.on('connection', socket => {
-  console.log('socket.io is connected')
-
-  io.on('message', data => {
-    socket.emit('message', data)
+io.on('connection', (socket) => {
+  console.log('socket.io is connected on the server')
+  socket.on('message', data => {
+    console.log('message on the server', data)
+    io.emit('message', data)
   })
-
 })
 
 app.use('/build', express.static(path.join(__dirname, '../../build')))
