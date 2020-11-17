@@ -9,6 +9,9 @@ export const Chat = () => {
   let messages = useSelector(state => state.messages.messages)
   const currUser = useSelector(state => state.messages.currUser)
 
+  fetch('https://github.com/login/oauth/authorize')
+    .then()
+
   window.fbAsyncInit = function () {
     FB.init({
       appId: '820271622144617',
@@ -25,6 +28,7 @@ export const Chat = () => {
           dispatch({ type: 'CURR_USER', payload: response.name })
         });
       } else {
+
         console.log('User cancelled login or did not fully authorize.');
       }
     });
