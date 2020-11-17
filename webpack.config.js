@@ -1,9 +1,8 @@
 const webpack = require('webpack');
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const entry = [
-  './src/client/index.js'
-];
+const entry = ['./src/client/index.js'];
 
 const output = {
   path: path.resolve(__dirname, 'build'),
@@ -12,8 +11,20 @@ const output = {
 };
 
 module.exports = {
-  entry, output,
-  // devtool: "eval-source-map",
+  entry,
+  output,
+  devtool: 'eval-source-map',
+  devServer: {
+    host: 'localhost',
+    port: 8080,
+    publicPath: '/build/',
+    proxy: {
+      '/api/': 'http://localhost:3000',
+    },
+    hot: true,
+    inline: true,
+    headers: { 'Access-Control-Allow-Origin': '*' },
+  },
   module: {
     rules: [
       {
@@ -22,16 +33,26 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react']
-          }
-        }
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+          },
+        },
       },
-
-      // {
-      //   test: /\.s[ac]ss$/i,
-      //   use: [ 'style-loader', 'css-loader', 'sass-loader' ]
-      // }
-    ]
-
+      {
+        // test: /\.s[ac]ss$/i,
+        test: /\.css/i,
+        exclude: /node_modules/,
+        use: ['style-loader', 'css-loader'],
+        // 'sass-loader'],
+      },
+    ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './index.html',
+    }),
+  ],
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
+  performance: { hints: false },
 };
