@@ -1,26 +1,28 @@
 require('dotenv').config();
-const path = require('path');
 const express = require('express');
-
 const app = express();
-const port = process.env.PORT || 3000;
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+const path = require('path');
 
-app.use(express.json());
+io.on('connection', (socket) => {
+  console.log('socket.io is connected');
+
+  io.on('message', (data) => {
+    socket.emit('message', data);
+  });
+});
 
 app.use('/build', express.static(path.join(__dirname, '../../build')));
 
-if (process.env.NODE_ENV === 'production') {
-  app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../index.html'));
-  });
+app.get('/build/bundle.js', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../build/bundle.js'));
+});
 
-  app.use(({ code, error }, req, res, next) => {
-    res.status(code).json({ error });
-  });
-}
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../index.html'));
+});
 
-console.log(process.env.PG_URI);
-
-module.exports = app.listen(port, () =>
-  console.log(`Listening on port ${port}`)
-);
+server.listen(3000, () => {
+  console.log('server listening at port 3000');
+});

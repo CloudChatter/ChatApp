@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './styles.css';
+import { Chat } from './components/Chat.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -13,12 +13,7 @@ class App extends Component {
     return (
       <div>
         <h1>Hello Squirtle World!</h1>
-        <p>Current value of number is {this.state.number}</p>
-        <button
-          onClick={() => this.setState({ number: this.state.number + 1 })}
-        >
-          Change State
-        </button>
+        <Chat />
       </div>
     );
   }
