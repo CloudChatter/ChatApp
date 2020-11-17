@@ -5,7 +5,10 @@ const socket = io('http://localhost:3000');
 
 
 export const Chat = () => {
+  // get the state of the current username
+  // array of messages
   let messages = useSelector(state => state.messages)
+  // a dynamic input string
   let value = useSelector(state => state.inputText)
   const dispatch = useDispatch()
 
@@ -30,9 +33,12 @@ export const Chat = () => {
 
     e.preventDefault()
     const data = {
-      newChat: value,
-      user: messages.username
+      text: value,
+      username: currentState.username,
+      dateCreated: Date.now()
     }
+
+
     socket.emit('message', data)
     // dispatch({ type: 'addNewChat', payload: { data } })
   }
