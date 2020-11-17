@@ -15,9 +15,9 @@ io.on('connection', (socket) => {
 
 app.use('/build', express.static(path.join(__dirname, '../../build')));
 
-app.get('/build/bundle.js', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../build/bundle.js'));
-});
+// app.get('/build/bundle.js', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../../build/bundle.js'));
+// });
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../../index.html'));
