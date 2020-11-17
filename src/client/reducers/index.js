@@ -1,9 +1,9 @@
 
 import { combineReducers } from 'redux';
+import messageReducer from './messageReducer';
 
 const reducers = combineReducers({
-  // if we had other reducers, they would go here
-  // markets: marketsReducer,
+  messages: messageReducer,
 });
 
 export default reducers;

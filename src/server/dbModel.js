@@ -1,18 +1,17 @@
 const { Pool } = require('pg');
-require("dotenv").config();
+require('dotenv').config();
 
-const SQLPath = process.env.PG_URI
+const SQLPath = process.env.PG_URI;
 
 const pool = new Pool({
-	connectionString: SQLPath,
+  connectionString: SQLPath,
 });
 
-
 module.exports = {
-	query: (text, params, callback) => {
-		console.log('executed query', text);
-		return pool.query(text, params, callback);
-	}
+  query: (text, params, callback) => {
+    console.log('executed query', text);
+    return pool.query(text, params, callback);
+  },
 };
 
 // Import this model in a backend controller to query the database.

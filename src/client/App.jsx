@@ -1,10 +1,12 @@
-import React, { Component } from 'react'
-import { Chat } from './components/Chat.jsx'
-
+import React, { Component } from 'react';
+import { Chat } from './components/Chat.jsx';
 
 class App extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+    this.state = {
+      number: 0,
+    };
   }
 
   render() {
@@ -13,7 +15,7 @@ class App extends Component {
         <h1>Hello Squirtle World!</h1>
         <Chat />
       </div>
-    )
+    );
   }
 }
 
