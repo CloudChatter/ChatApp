@@ -1,7 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import WordCloudContainer from './WordCloudContainer';
+
+
+
+
 import io from 'socket.io-client'
 const socket = io('http://localhost:3000');
+
 
 export const Chat = () => {
   const [value, updateValue] = useState('')
@@ -83,16 +89,24 @@ export const Chat = () => {
       })
   }
 
+
+
   return (
     <div>
-      <h3>Chat Room</h3>
-      <ul className='messageList'>
-        {messages.map((message) => {
-          return <li>{message.created_by} - {message.content}</li>
-        })}
-      </ul>
-      <input value={value} onChange={handleChange} type="text" />
-      <button onClick={handleSubmitChat}>Post!</button>
+      <div>
+        <h3>Chat Room!</h3>
+        <ul className='messageList'>
+          {messages.map((message) => {
+            return <li>{message.created_by} - {message.content}</li>
+          })}
+        </ul>
+        <input value={value} onChange={handleChange} type="text" />
+        <button onClick={handleSubmitChat}>Post!</button>
+      </div>
+      {!!messages.length && (
+        <WordCloudContainer />
+
+      )}
     </div>
   )
 }
