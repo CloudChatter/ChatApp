@@ -1,12 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import WordCloudContainer from './WordCloudContainer';
+
+
+
 import io from 'socket.io-client'
 const socket = io('http://localhost:3000');
+
 
 export const Chat = () => {
   const [value, updateValue] = useState('')
   const dispatch = useDispatch()
-  let messages = useSelector(state => state.messages.messages)
+  const messages = useSelector(state => state.messages.messages)
 
   useEffect(() => {
     socket.on('newMessage', (data) => {
@@ -14,16 +19,16 @@ export const Chat = () => {
       dispatch({ type: 'ADD_MESSAGE', payload: data })
     })
 
-    fetch('/api/messages')
-      .then(res => JSON.parse(res))
-      .then(data => {
-        const newMessages = []
-        for (let i = 0; i < data.length; i += 1) {
-          if (i === 20) return;
-          newMessages.push(data[i])
-        }
-        messages = newMessages
-      })
+    // fetch('/api/messages')
+    //   .then(res => JSON.parse(res))
+    //   .then(data => {
+    //     const newMessages = []
+    //     for (let i = 0; i < data.length; i += 1) {
+    //       if (i === 20) return;
+    //       newMessages.push(data[i])
+    //     }
+    //     messages = newMessages
+    //   })
   }, [])
 
 
@@ -54,16 +59,23 @@ export const Chat = () => {
       })
   }
 
+
+
   return (
     <div>
-      <h3>Chat Room</h3>
-      <ul className='messageList'>
-        {messages.map((message) => {
-          return <li>{message.created_by} - {message.content}</li>
-        })}
-      </ul>
-      <input value={value} onChange={handleChange} type="text" />
-      <button onClick={handleSubmitChat}>Post!</button>
+      <div>
+        <h3>Chat Room</h3>
+        <ul className='messageList'>
+          {messages.map((message) => {
+            return <li>{message.created_by} - {message.content}</li>
+          })}
+        </ul>
+        <input value={value} onChange={handleChange} type="text" />
+        <button onClick={handleSubmitChat}>Post!</button>
+      </div>
+      {messages.length && (
+        <WordCloudContainer />
+      )}
     </div>
   )
 }
