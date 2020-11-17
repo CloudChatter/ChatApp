@@ -1,9 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 
-const entry = [
-  './src/client/index.js'
-];
+const entry = ['./src/client/index.js'];
 
 const output = {
   path: path.resolve(__dirname, 'build'),
@@ -12,8 +10,17 @@ const output = {
 };
 
 module.exports = {
-  entry, output,
-  // devtool: "eval-source-map",
+  entry,
+  output,
+  devtool: 'eval-source-map',
+  devServer: {
+    host: 'localhost',
+    port: 8080,
+    publicPath: '/build/',
+    proxy: {
+      '/api/': 'http://localhost:3000',
+    },
+  },
   module: {
     rules: [
       {
@@ -22,15 +29,19 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [ '@babel/preset-env', '@babel/preset-react' ]
-          }
-        }
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+          },
+        },
       },
-      // {
-      //   test: /\.s[ac]ss$/i,
-      //   use: [ 'style-loader', 'css-loader', 'sass-loader' ]
-      // }
-    ]
+      {
+        test: /\.s[ac]ss$/i,
+        exclude: /node_modules/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+    ],
   },
-};    
-          
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
+  performance: { hints: false },
+};
