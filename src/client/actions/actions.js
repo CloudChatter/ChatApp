@@ -1,8 +1,8 @@
 import * as types from './actionTypes';
 
-export const addMessage = (text) => ({
+export const addMessage = (messageObject) => ({
   type: types.ADD_MESSAGE,
-  payload: text,
+  payload: messageObject,
 });
 
 // export const editMessage = (text) => ({
