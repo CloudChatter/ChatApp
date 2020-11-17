@@ -1,10 +1,10 @@
 const { Pool } = require('pg');
+require("dotenv").config();
 
-const PG_URI = 'postgres://fqlrmqdw:Q-czBq4XKLQlDYUFYbDeq2oE8uFTfCmK@drona.db.elephantsql.com:5432/fqlrmqdw';
+const SQLPath = process.env.PG_URI
 
-// create a new pool here using the connection string above
 const pool = new Pool({
-	connectionString: PG_URI,
+	connectionString: SQLPath,
 });
 
 
@@ -14,3 +14,7 @@ module.exports = {
 		return pool.query(text, params, callback);
 	}
 };
+
+// Import this model in a backend controller to query the database.
+// import database from './dbModel.js'
+// database.query("insert SQL command here")
