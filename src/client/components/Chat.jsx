@@ -12,7 +12,6 @@ export const Chat = () => {
   const [value, updateValue] = useState('')
 
 
-  const [messages, updateMessages] = useState([])
 
   // get the state of the current username
   // array of messages
@@ -24,9 +23,7 @@ export const Chat = () => {
   socket.on('message', (data) => {
     console.log('connected client side!')
     // dispatch({ type: 'addMessage', payload: { data } })
-    messages.updateMessages([messages])
-    console.log(messages)
-    console.log('leaving ')
+
   })
 
   function handleChange(e) {
