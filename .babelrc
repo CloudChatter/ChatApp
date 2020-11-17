@@ -1,0 +1,21 @@
+{
+  "presets": ["@babel/preset-env", "@babel/preset-react"]
+}
+
+// need to define babel's presets here or else will get this error:
+
+// FAIL  __test__/client/enzyme.test.js
+//   ● Test suite failed to run
+
+//     SyntaxError: /Users/alicefu/Documents/Codesmith/Projects/ChatApp/__test__/client/enzyme.test.js: Support for the experimental syntax 'jsx' isn't currently enabled (19:25):
+
+//       17 |     };
+//       18 |     beforeAll(() => {
+//     > 19 |       wrapper = shallow(<App />);
+//          |                         ^
+//       20 |     });
+//       21 |
+//       22 |     it('Renders a <div> tag', () => {
+
+//     Add @babel/preset-react (https://git.io/JfeDR) to the 'presets' section of your Babel config to enable transformation.
+//     If you want to leave it as-is, add @babel/plugin-syntax-jsx (https://git.io/vb4yA) to the 'plugins' section to enable parsing.
