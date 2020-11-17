@@ -1,24 +1,25 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const path = require('path');
 
-io.on('connection', (socket) => {
-  console.log('socket.io is connected on the server')
-  socket.on('message', data => {
-    console.log('message on the server', data)
-    io.emit('newMessage', data)
-  })
-})
+app.use(cors());
 
+io.on('connection', (socket) => {
+  console.log('socket.io is connected on the server');
+  socket.on('message', (data) => {
+    console.log('message on the server', data);
+    io.emit('newMessage', data);
+  });
+});
 
 // createa  button to save the current chat to DB (post reequest to db)
 // send along the username
 
 // DB: ILoveDogs = [{[{}{}{}],[{}{}{}{}]]
-
 
 app.use('/build', express.static(path.join(__dirname, '../../build')));
 
