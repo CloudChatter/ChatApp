@@ -5,6 +5,9 @@ const initialState = {
   usersOnline: 0,
   messages: [],
   lastMessageID: 0,
+
+
+  currUser: '',
 };
 
 const messageReducer = (state = initialState, action) => {
@@ -14,14 +17,8 @@ const messageReducer = (state = initialState, action) => {
 
   switch (action.type) {
     case types.ADD_MESSAGE: {
-      const newMessage = {
-        messageID: state.lastMessageID += 1,
-        text: action.payload,
-        // userID: will this also be in the payload?
-      };
-
       messages = state.messages.slice(); // make a shallow copy
-      messages.push(newMessage);
+      messages.push(action.payload);
       messageCount = messages.length;
 
       return {
