@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const entry = ['./src/client/index.js'];
 
@@ -20,6 +21,9 @@ module.exports = {
     proxy: {
       '/api/': 'http://localhost:3000',
     },
+    hot: true,
+    inline: true,
+    headers: { 'Access-Control-Allow-Origin': '*' },
   },
   module: {
     rules: [
@@ -34,12 +38,19 @@ module.exports = {
         },
       },
       {
-        test: /\.s[ac]ss$/i,
+        // test: /\.s[ac]ss$/i,
+        test: /\.css/i,
         exclude: /node_modules/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: ['style-loader', 'css-loader'],
+        // 'sass-loader'],
       },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './index.html',
+    }),
+  ],
   resolve: {
     extensions: ['.js', '.jsx'],
   },
