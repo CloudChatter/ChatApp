@@ -30,6 +30,28 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../../index.html'));
 });
 
+app.get("api/messages", messageController.getMessages, (req, res) => {
+  res.status(200).json(res.locals.messages);
+});
+
+app.post(
+  "api/messages",
+  messageController.postMessage,
+  (req, res) => {
+    res.status(200);
+  }
+);
+
+app.use((err, req, res, next) => {
+  const defaultError = {
+    log: "Error during unknown middleware",
+    status: 400,
+    message: { err: "Middleware error." },
+  };
+  const errorObj = Object.assign({}, defaultError, err);
+  console.log(errorObj.log);
+  return res.status(errorObj.status).json(errorObj.message);
+});
 server.listen(3000, () => {
   console.log('server listening at port 3000');
 });
