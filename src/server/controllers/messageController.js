@@ -1,15 +1,15 @@
-const db = require('../controllers/messageController');
+const db = require('../dbModel');
 
 const messageController = {};
 
 messageController.postMessage = (req, res, next) => {
-  const { message_id, message, created_at } = req.body;
+  const { id, author_id, content, created_at } = req.body;
 
   const query = `
   INSERT INTO Messages (message_id, message, created_at)
   VALUES ($1, $2, $3, $4)
 `;
-  const values = [message_id, message, created_at];
+  const values = [id, author_id, content, created_at];
   db.query(query, values)
     .then((data) => {
       console.log(data);
