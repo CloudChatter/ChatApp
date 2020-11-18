@@ -52,7 +52,7 @@ const messageReducer = (state = initialState, action) => {
       usersOnline = state.usersOnline;
       usersOnline += 1;
       currUser = action.payload;
-      listOfUsersOnline = JSON.parse(JSON.stringify(this.state.listOfUsersOnline))
+      listOfUsersOnline = JSON.parse(JSON.stringify(state.listOfUsersOnline))
       listOfUsersOnline[currUser] = {
         username: currUser,
         profileURL: ""
@@ -68,7 +68,7 @@ const messageReducer = (state = initialState, action) => {
     case types.LOGOUT: {
       usersOnline = state.usersOnline;
       usersOnline -= 1;
-      listOfUsersOnline = JSON.parse(JSON.stringify(this.state.listOfUsersOnline))
+      listOfUsersOnline = JSON.parse(JSON.stringify(state.listOfUsersOnline))
       delete listOfUsersOnline[currUser]
       return {
         ...state,
