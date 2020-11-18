@@ -48,18 +48,22 @@ export const Chat = () => {
     });
 
     // when a user joins, get the latest messages
-    // fetch('/api/messages')
-    //   .then(res => JSON.parse(res))
-    //   .then(data => {
-    //     const newMessages = []
-    //     for (let i = 0; i < 100; i += 1) {
-    //       newMessages.push(data[i])
-    //     }
-    //     messages = newMessages
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
+    fetch('/api/messages')
+      .then(res => = res.json())
+      .then(data => {
+        console.log('data back from server, get messages', data)
+        // here's where we have the 100 messages, back from the server
+        // we should send them to state thru a redux action
+
+        // const newMessages = []
+        // for (let i = 0; i < 100; i += 1) {
+        //   newMessages.push(data[i])
+        // }
+        // messages = newMessages
+      })
+      .catch(error => {
+        console.log(error);
+      });
   
   }, [])
 

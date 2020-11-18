@@ -31,17 +31,15 @@ app.get('/', (req, res) => {
 });
 
 app.get("/api/messages", messageController.getMessages, (req, res) => {
-  console.log('api/messages get server route')
-   return res.status(200).json(res.locals.messages);
+  console.log('api/messages data', res.locals.messages);
+   return res.status(200).send({data: res.locals.messages});
 });
-
-
 
 app.post(
   "/api/messages",
   messageController.postMessage,
   (req, res) => {
-    console.log('api/messages post server route')
+    if (res.locals.messageAdded) console.log('message successfully added to DB')
     return res.status(200);
   }
 );
