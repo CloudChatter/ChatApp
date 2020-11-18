@@ -18,7 +18,7 @@ const WordCloudContainer = () => {
   const wordsToOmit = ["and", "the", "that", 'have', 'with', 'you', 'this', 'but', 'from', 'they', 'would', 'there', 'their', 'what', 'about', 'when', 'make']
   const makeWordCountData = () => {
     const wordCount = {}
-    console.log("messages:", messages)
+    // console.log("messages:", messages)
     for (let { content } of messages) {
       const words = content.split(" ")
       for (let word of words) {

@@ -5,6 +5,11 @@ export const addMessage = (messageObject) => ({
   payload: messageObject,
 });
 
+export const getMessages = (latestMessages) => ({
+  type: types.GET_MESSAGES,
+  payload: latestMessages,
+})
+
 // export const editMessage = (text) => ({
 //   type: types.EDIT_MESSAGE,
 //   payload: text,

@@ -13,7 +13,7 @@ const io = require('socket.io')(server, options);
 io.on('connection', (socket) => {
   console.log('socket.io is connected on the server')
   socket.on('message', data => {
-    console.log('message on the server', data)
+    // console.log('message on the server', data)
     io.emit('newMessage', data)
   })
 })
@@ -31,20 +31,21 @@ app.get('/', (req, res) => {
 });
 
 app.get("/api/messages", messageController.getMessages, (req, res) => {
-  console.log('api/messages get server route')
-   return res.status(200).json(res.locals.messages);
+   return res.status(200).send({data: res.locals.messages});
 });
-
-
 
 app.post(
   "/api/messages",
   messageController.postMessage,
   (req, res) => {
-    console.log('api/messages post server route')
+    if (res.locals.messageAdded) console.log('message successfully added to DB')
     return res.status(200);
   }
 );
+
+app.get('*', (req, res) => {
+  res.redirect('/')
+})
 
 app.use((err, req, res, next) => {
   const defaultError = {
