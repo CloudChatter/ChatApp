@@ -1,12 +1,15 @@
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
 const app = express();
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
-const path = require('path');
-
+const cors = require('cors');
 app.use(cors());
+
+// const server = require('http').createServer(app);
+const server = require('http').createServer();
+// const options = { cors: true, origin: ['http://localhost:8080'] };
+const options = { cors: true, origin: ['*'] };
+const io = require('socket.io')(server, options);
+const path = require('path');
 
 io.on('connection', (socket) => {
   console.log('socket.io is connected on the server');

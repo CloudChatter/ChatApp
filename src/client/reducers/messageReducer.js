@@ -6,7 +6,6 @@ const initialState = {
   messages: [],
   lastMessageID: 0,
 
-
   currUser: '',
 };
 
@@ -14,6 +13,7 @@ const messageReducer = (state = initialState, action) => {
   let messages;
   let messageCount;
   let usersOnline;
+  let currUser;
 
   switch (action.type) {
     case types.ADD_MESSAGE: {
@@ -22,7 +22,7 @@ const messageReducer = (state = initialState, action) => {
       messageCount = messages.length;
 
       return {
-        ...initialState,
+        ...state,
         messageCount,
         messages,
       };
@@ -35,22 +35,24 @@ const messageReducer = (state = initialState, action) => {
 
     // }
 
-    case types.ADD_USER: {
+    case types.LOGIN: {
+      currUser = action.payload;
       usersOnline = state.usersOnline;
       usersOnline += 1;
-
+      currUser = action.payload;
       return {
-        ...initialState,
+        ...state,
+        currUser,
         usersOnline,
       };
     }
 
-    case types.DELETE_USER: {
+    case types.LOGOUT: {
       usersOnline = state.usersOnline;
       usersOnline -= 1;
 
       return {
-        ...initialState,
+        ...state,
         usersOnline,
       };
     }
