@@ -39,11 +39,11 @@ const messageReducer = (state = initialState, action) => {
       currUser = action.payload;
       usersOnline = state.usersOnline;
       usersOnline += 1;
-
+      currUser = action.payload;
       return {
         ...initialState,
-        usersOnline,
         currUser,
+        usersOnline,
       };
     }
 
