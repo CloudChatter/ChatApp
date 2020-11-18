@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { withRouter } from 'react-router-dom'
 import io from 'socket.io-client'
 const socket = io('http://localhost:3000');
 
-export const Chat = () => {
+const Chat = () => {
   const [value, updateValue] = useState('')
   const dispatch = useDispatch()
   let messages = useSelector(state => state.messages.messages)
@@ -67,3 +68,6 @@ export const Chat = () => {
     </div>
   )
 }
+
+
+export default withRouter(Chat);
