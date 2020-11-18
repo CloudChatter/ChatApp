@@ -18,12 +18,13 @@ module.exports = {
     host: 'localhost',
     port: 8080,
     publicPath: '/build/',
+    hot: true,
+    inline: true,
+    historyApiFallback: true,
+    headers: { 'Access-Control-Allow-Origin': '*' },
     proxy: {
       '/api/': 'http://localhost:3000',
     },
-    hot: true,
-    inline: true,
-    headers: { 'Access-Control-Allow-Origin': '*' },
   },
   module: {
     rules: [
