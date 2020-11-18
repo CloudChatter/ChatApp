@@ -10,7 +10,7 @@ const WordCloudContainer = () => {
   const [wordCountData, setWordCountData] = useState([])
   // const [newWordsAdded, setNewWordsAdded] = useState(false)
 
-  
+
   useEffect(() => {
     setWordCountData(makeWordCountData())
   }, [messages])
@@ -30,23 +30,23 @@ const WordCloudContainer = () => {
     // now we have word Count {"hello": 5, "world": 12}
     const data = []
     for (let [word, count] of Object.entries(wordCount)) {
-      data.push({'text': word, 'value': count})
+      data.push({ 'text': word, 'value': count })
     }
     return data;
   }
-  
+
   // console.log('inside word cloud container')
   const fontSizeMapper = word => Math.log2(word.value) * 5;
   const rotate = word => word.value % 360;
   const onWordMouseOver = word => alert(word);
 
   return (
-    <div style={{border: '2px solid lightgrey'}}>
-    <ReactWordcloud
-    words={wordCountData}
-    rotate = {rotate}
-    onWordMouseOver={onWordMouseOver}
-    />
+    <div style={{ border: '2px solid lightgrey' }}>
+      <ReactWordcloud
+        words={wordCountData}
+        rotate={rotate}
+        onWordMouseOver={onWordMouseOver}
+      />
     </div>
   )
 }

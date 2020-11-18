@@ -14,6 +14,7 @@ const messageReducer = (state = initialState, action) => {
   let messages;
   let messageCount;
   let usersOnline;
+  let currUser;
 
   switch (action.type) {
     case types.ADD_MESSAGE: {
@@ -35,13 +36,23 @@ const messageReducer = (state = initialState, action) => {
 
     // }
 
+    case types.CURR_USER: {
+      usersOnline = state.usersOnline;
+      usersOnline += 1;
+      currUser = action.payload
+      return {
+        ...initialState,
+        currUser,
+        usersOnline
+      };
+    }
+
     case types.ADD_USER: {
       usersOnline = state.usersOnline;
       usersOnline += 1;
-
       return {
         ...initialState,
-        usersOnline,
+        usersOnline
       };
     }
 

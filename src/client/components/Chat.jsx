@@ -12,7 +12,36 @@ const socket = io('http://localhost:3000');
 export const Chat = () => {
   const [value, updateValue] = useState('')
   const dispatch = useDispatch()
-  const messages = useSelector(state => state.messages.messages)
+  let messages = useSelector(state => state.messages.messages)
+  const currUser = useSelector(state => state.messages.currUser)
+
+  fetch('https://github.com/login/oauth/authorize')
+    .then()
+
+  window.fbAsyncInit = function () {
+    FB.init({
+      appId: '820271622144617',
+      autoLogAppEvents: true,
+      xfbml: true,
+      version: 'v9.0'
+    });
+
+    FB.login(function (response) {
+      if (response.authResponse) {
+        console.log('Welcome!  Fetching your information.... ');
+        FB.api('/me', function (response) {
+          console.log('Good to see you, ' + response.name + '.');
+          dispatch({ type: 'CURR_USER', payload: response.name })
+        });
+      } else {
+
+        console.log('User cancelled login or did not fully authorize.');
+      }
+    });
+  };
+
+
+
 
   useEffect(() => {
     socket.on('newMessage', (data) => {
@@ -41,7 +70,7 @@ export const Chat = () => {
     e.preventDefault()
     const message = {
       content: value,
-      created_by: 'iLoveDogs',
+      created_by: currUser,
       created_at: Date.now()
     }
     updateValue('')
@@ -76,7 +105,7 @@ export const Chat = () => {
       </div>
       {!!messages.length && (
         <WordCloudContainer />
-       
+
       )}
     </div>
   )
