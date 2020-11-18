@@ -30,12 +30,12 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../../index.html'));
 });
 
-app.get("/messages", messageController.getMessages, (req, res) => {
+app.get("api/messages", messageController.getMessages, (req, res) => {
   res.status(200).json(res.locals.messages);
 });
 
 app.post(
-  "/messages",
+  "api/messages",
   messageController.postMessage,
   (req, res) => {
     res.status(200);
