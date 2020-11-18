@@ -12,7 +12,7 @@ passport.serializeUser((user, cb) => {
 });
 
 passport.deserializeUser((id, cb) => {
-  const queryStr = `SELECT * FROM CHATUSERS WHERE _id = $1`;
+  const queryStr = `SELECT * FROM PUBLIC.USERS WHERE _id = $1`;
   db.query(queryStr, [id])
     .then((data) => {
       const user = data.rows[0];
@@ -24,7 +24,7 @@ passport.deserializeUser((id, cb) => {
 passport.use(
   new LocalStrategy({ usernameField: 'email' }, (email, password, cb) => {
     console.log('email and password', email, password);
-    const queryStr = `SELECT * FROM CHATUSERS WHERE email = $1`;
+    const queryStr = `SELECT * FROM PUBLIC.USERS WHERE email = $1`;
     console.log('in cb of localstrat setup');
     db.query(queryStr, [email])
       .then((data) => {
@@ -56,7 +56,7 @@ passport.use(
       const newUser = { google_id: id, username: displayName };
 
       // insert logic for checking if the user exists in user database
-      const queryStr = `SELECT * FROM CHATUSERS WHERE google_id = $1`;
+      const queryStr = `SELECT * FROM PUBLIC.USERS WHERE google_id = $1`;
       db.query(queryStr, [id])
         .then((data) => {
           if (data.rows[0]) {
@@ -64,7 +64,7 @@ passport.use(
             return cb(null, user);
           }
           // if not, insert into database
-          const queryString = `INSERT INTO chatUsers (google_id, username)
+          const queryString = `INSERT INTO PUBLIC.USERS (google_id, username)
           VALUES ($1, $2)
           RETURNING *`;
           const values = [id, displayName];

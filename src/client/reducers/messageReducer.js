@@ -35,6 +35,16 @@ const messageReducer = (state = initialState, action) => {
 
     // }
 
+    case types.GET_MESSAGES: {
+      let messages = action.payload;
+      let messageCount = messages.length;
+      return {
+        ...state,
+        messages,
+        messageCount,
+      }
+    }
+
     case types.LOGIN: {
       currUser = action.payload;
       usersOnline = state.usersOnline;

@@ -37,7 +37,7 @@ userController.createUser = (req, res, next) => {
   bcrypt.hash(password, SALT_WORK_FACTOR, (err, hash) => {
     if (err) return next('HASH FUNCTION ERROR', err);
 
-    const queryString = `INSERT INTO chatUsers (username, email, password)
+    const queryString = `INSERT INTO PUBLIC.USERS (username, email, password)
       VALUES ($1, $2, '${hash}')
       RETURNING *`;
     const values = [username, email];

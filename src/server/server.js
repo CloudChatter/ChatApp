@@ -4,28 +4,26 @@ const app = express();
 require('./passport-setup');
 const userController = require('./controllers/userController');
 const cors = require('cors');
-
-const server = require('http').createServer(app);
-const options = { cors: true, origin: ['http://localhost:8080'] };
-// const server = require('http').createServer();
-// const options = { cors: true, origin: ['*'] };
-const io = require('socket.io')(server, options);
+const messageController = require('../server/controllers/messageController');
 const path = require('path');
 const passport = require('passport');
-const messageController = require('../server/controllers/messageController');
+
+app.use(express.json());
+
+// WEBSOCKET CONFIG
+const server = require('http').createServer(app);
+const options = { cors: true, origin: ['http://localhost:8080'] };
+const io = require('socket.io')(server, options);
 
 io.on('connection', (socket) => {
   console.log('socket.io is connected on the server');
   socket.on('message', (data) => {
-    console.log('message on the server', data);
+    // console.log('message on the server', data)
     io.emit('newMessage', data);
   });
 });
 
-// createa  button to save the current chat to DB (post reequest to db)
-// send along the username
-
-// DB: ILoveDogs = [{[{}{}{}],[{}{}{}{}]]
+//
 
 // Application Level Middleware
 const cookieParser = require('cookie-parser');
@@ -123,12 +121,17 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../../index.html'));
 });
 
-app.get('api/messages', messageController.getMessages, (req, res) => {
-  res.status(200).json(res.locals.messages);
+app.get('/api/messages', messageController.getMessages, (req, res) => {
+  return res.status(200).send({ data: res.locals.messages });
 });
 
-app.post('api/messages', messageController.postMessage, (req, res) => {
-  res.status(200);
+app.post('/api/messages', messageController.postMessage, (req, res) => {
+  if (res.locals.messageAdded) console.log('message successfully added to DB');
+  return res.status(200);
+});
+
+app.get('*', (req, res) => {
+  res.redirect('/');
 });
 
 app.use((err, req, res, next) => {
