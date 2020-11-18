@@ -30,7 +30,6 @@ messageController.postMessage = (req, res, next) => {
 };
 
 messageController.getMessages = (req, res, next) => {
-  console.log('get messages route fired')
   const query = `SELECT * FROM "public"."messages" LIMIT 100`;
 
   db.query(query)

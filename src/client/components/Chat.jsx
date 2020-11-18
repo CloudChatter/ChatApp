@@ -52,9 +52,7 @@ export const Chat = () => {
     fetch('/api/messages')
       .then(res => res.json())
       .then(({ data }) => {
-        console.log('data back from server, get messages', data)
-        // here's where we have the 100 messages, back from the server
-        // we should send them to state thru a redux action
+        // here's where we have the latest 100 messages -  send them to state
         dispatch({ type: 'GET_MESSAGES', payload: data})
       })
       .catch(error => {

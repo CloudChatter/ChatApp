@@ -36,7 +36,6 @@ const messageReducer = (state = initialState, action) => {
     // }
 
     case types.GET_MESSAGES: {
-      // the last 100 messages should be our action.payload
       let messages = action.payload;
       let messageCount = messages.length;
       return {
