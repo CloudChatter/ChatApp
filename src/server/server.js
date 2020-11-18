@@ -8,7 +8,8 @@ app.use(express.json())
 
 // WEBSOCKET CONFIG
 const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+const options = { cors: true, origin: ['http://localhost:8080'] };
+const io = require('socket.io')(server, options);
 io.on('connection', (socket) => {
   console.log('socket.io is connected on the server')
   socket.on('message', data => {
