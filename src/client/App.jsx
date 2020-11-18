@@ -12,11 +12,14 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-          <Route exact path='/'> 
-            <Login /> 
+          <Route exact path="/">
+            <Login />
           </Route>
-          <Route exact path='/chat'> 
-            <Chat /> 
+          {/* <Route exact path="/register">
+            <Register />
+          </Route> */}
+          <Route exact path="/chat">
+            <Chat />
           </Route>
         </Switch>
       </Router>

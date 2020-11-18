@@ -6,7 +6,8 @@ const entry = ['./src/client/index.js'];
 
 const output = {
   path: path.resolve(__dirname, 'build'),
-  publicPath: '/build/',
+  publicPath: '/',
+  // publicPath: '/build/',
   filename: 'bundle.js',
 };
 
@@ -15,7 +16,8 @@ module.exports = {
   output,
   devtool: 'eval-source-map',
   devServer: {
-    host: 'localhost',
+    // host: 'localhost',
+    host: '0.0.0.0',
     port: 8080,
     publicPath: '/build/',
     hot: true,
@@ -23,7 +25,15 @@ module.exports = {
     historyApiFallback: true,
     headers: { 'Access-Control-Allow-Origin': '*' },
     proxy: {
-      '/api/': 'http://localhost:3000',
+      '/api/*': {
+        // '/': {
+        target: 'http://localhost:3000',
+        secure: false,
+      },
+      '/auth/*': {
+        target: 'http://localhost:3000',
+        secure: false,
+      },
     },
   },
   module: {
