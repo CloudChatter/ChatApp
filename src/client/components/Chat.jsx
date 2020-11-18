@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { withRouter } from 'react-router-dom'
 import WordCloudContainer from './WordCloudContainer';
-
-
-
-
 import io from 'socket.io-client'
 const socket = io('http://localhost:3000');
+
+
 
 
 export const Chat = () => {
@@ -15,8 +14,8 @@ export const Chat = () => {
   let messages = useSelector(state => state.messages.messages)
   const currUser = useSelector(state => state.messages.currUser)
 
-  fetch('https://github.com/login/oauth/authorize')
-    .then()
+  // fetch('https://github.com/login/oauth/authorize')
+  //   .then()
 
   window.fbAsyncInit = function () {
     FB.init({
@@ -31,7 +30,7 @@ export const Chat = () => {
         console.log('Welcome!  Fetching your information.... ');
         FB.api('/me', function (response) {
           console.log('Good to see you, ' + response.name + '.');
-          dispatch({ type: 'CURR_USER', payload: response.name })
+          dispatch({ type: 'LOGIN', payload: response.name })
         });
       } else {
 
@@ -40,27 +39,25 @@ export const Chat = () => {
     });
   };
 
-
-
-
   useEffect(() => {
     socket.on('newMessage', (data) => {
       console.log('connected client side!')
       dispatch({ type: 'ADD_MESSAGE', payload: data })
-    })
+    })}, [])
 
-    fetch('/api/messages')
-      .then(res => JSON.parse(res))
-      .then(data => {
-        const newMessages = []
-        for (let i = 0; i < data.length; i += 1) {
-          if (i === 20) return;
-          newMessages.push(data[i])
-        }
-        messages = newMessages
-      })
-  }, [])
-
+  //   fetch('/api/messages')
+  //     .then(res => JSON.parse(res))
+  //     .then(data => {
+  //       const newMessages = []
+  //       for (let i = 0; i < data.length; i += 1) {
+  //         if (i === 20) return;
+  //         newMessages.push(data[i])
+  //       }
+  //       messages = newMessages
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
 
   function handleChange(e) {
     updateValue(e.target.value)
@@ -76,17 +73,20 @@ export const Chat = () => {
     updateValue('')
     socket.emit('message', message)
 
-    fetch('/api/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(message)
-    })
-      .then(res => JSON.parse(res))
-      .then(data => {
-        console.log('message added to db')
-      })
+    // fetch('/api/messages', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(message)
+    // })
+    //   .then(res => JSON.parse(res))
+    //   .then(data => {
+    //     console.log('message added to db')
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
   }
 
 
@@ -110,3 +110,6 @@ export const Chat = () => {
     </div>
   )
 }
+
+
+export default withRouter(Chat);

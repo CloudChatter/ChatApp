@@ -15,19 +15,14 @@ export const addMessage = (messageObject) => ({
 // })
 
 // export a new action creator, which returns a delete card object
-export const addUser = (username) => ({
-  type: types.ADD_USER,
+export const login = (username) => ({
+  type: types.LOGIN,
   payload: username,
 });
 
-export const currUser = (username) => ({
-  type: types.CURR_USER,
+export const logout = (username) => ({
+  type: types.LOGOUT,
   payload: username,
-});
-
-export const deleteUser = (userID) => ({
-  type: types.DELETE_USER,
-  payload: userID,
 });
 
 // export const newCloud = () => ({

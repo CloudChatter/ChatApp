@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
+import { Link, Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import { Chat } from './components/Chat.jsx';
+import Login from './components/Login.jsx';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      number: 0,
-    };
+  constructor() {
+    super();
   }
 
   render() {
     return (
-      <div>
-        <h1>Hello Squirtle World!</h1>
-        <Chat />
-      </div>
+      <Router>
+        <Switch>
+          <Route exact path='/'> 
+            <Login /> 
+          </Route>
+          <Route exact path='/chat'> 
+            <Chat /> 
+          </Route>
+        </Switch>
+      </Router>
     );
   }
 }
