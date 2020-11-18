@@ -1,4 +1,4 @@
-const db = require('./dbModel');
+const db = require('../dbModel');
 const bcrypt = require('bcrypt');
 
 const userController = {};
