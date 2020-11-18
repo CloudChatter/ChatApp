@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import WordCloudContainer from './WordCloudContainer';
+import UsersOnlineDisplay from './UsersOnlineDisplay';
 import io from 'socket.io-client';
 const socket = io('http://localhost:3000');
 
@@ -9,6 +10,7 @@ export const Chat = () => {
   const [value, updateValue] = useState('');
   const dispatch = useDispatch();
 
+  const listOfUsersOnline = useSelector((state) => state.messages.listOfUsersOnline);
   const messages = useSelector((state) => state.messages.messages);
   const currUser = useSelector((state) => state.messages.currUser);
 
@@ -106,19 +108,23 @@ export const Chat = () => {
 
   return (
     <div>
-      <div>
-        <h3>Chat Room!</h3>
-        <ul className="messageList">
-          {messages.map((message) => {
-            return (
-              <li>
-                {message.created_by} - {message.content}
-              </li>
-            );
-          })}
-        </ul>
-        <input value={value} onChange={handleChange} type="text" />
-        <button onClick={handleSubmitChat}>Post!</button>
+      <div style={{display: 'flex'}}>
+        <div>
+          <h3>Chat Room!</h3>
+          <ul className="messageList">
+            {messages.map((message) => {
+              return (
+                <li>
+                  {message.created_by} - {message.content}
+                </li>
+              );
+            })}
+          </ul>
+          <input value={value} onChange={handleChange} type="text" />
+          <button onClick={handleSubmitChat}>Post!</button>
+        </div>
+        {/* {listOfUsersOnline.length > 1 && <UsersOnlineDisplay />} */}
+        <UsersOnlineDisplay />
       </div>
       {!!messages.length && <WordCloudContainer />}
     </div>

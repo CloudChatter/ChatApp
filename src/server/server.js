@@ -8,8 +8,6 @@ const messageController = require('../server/controllers/messageController');
 const path = require('path');
 const passport = require('passport');
 
-app.use(express.json());
-
 // WEBSOCKET CONFIG
 const server = require('http').createServer(app);
 const options = { cors: true, origin: ['http://localhost:8080'] };
