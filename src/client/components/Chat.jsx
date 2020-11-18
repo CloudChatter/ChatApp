@@ -11,7 +11,8 @@ const socket = io('http://localhost:3000');
 export const Chat = () => {
   const [value, updateValue] = useState('')
   const dispatch = useDispatch()
-  let messages = useSelector(state => state.messages.messages)
+   
+  const messages = useSelector(state => state.messages.messages)
   const currUser = useSelector(state => state.messages.currUser)
 
   // fetch('https://github.com/login/oauth/authorize')
@@ -49,17 +50,12 @@ export const Chat = () => {
 
     // when a user joins, get the latest messages
     fetch('/api/messages')
-      .then(res => = res.json())
-      .then(data => {
+      .then(res => res.json())
+      .then(({ data }) => {
         console.log('data back from server, get messages', data)
         // here's where we have the 100 messages, back from the server
         // we should send them to state thru a redux action
-
-        // const newMessages = []
-        // for (let i = 0; i < 100; i += 1) {
-        //   newMessages.push(data[i])
-        // }
-        // messages = newMessages
+        dispatch({ type: 'GET_MESSAGES', payload: data})
       })
       .catch(error => {
         console.log(error);
