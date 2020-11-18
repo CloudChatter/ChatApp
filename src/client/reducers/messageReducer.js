@@ -22,7 +22,7 @@ const messageReducer = (state = initialState, action) => {
       messageCount = messages.length;
 
       return {
-        ...initialState,
+        ...state,
         messageCount,
         messages,
       };
@@ -41,7 +41,7 @@ const messageReducer = (state = initialState, action) => {
       usersOnline += 1;
       currUser = action.payload;
       return {
-        ...initialState,
+        ...state,
         currUser,
         usersOnline,
       };
@@ -52,7 +52,7 @@ const messageReducer = (state = initialState, action) => {
       usersOnline -= 1;
 
       return {
-        ...initialState,
+        ...state,
         usersOnline,
       };
     }
