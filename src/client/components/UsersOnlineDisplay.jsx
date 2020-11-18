@@ -8,6 +8,7 @@ const socket = io('http://localhost:3000');
   const dispatch = useDispatch();
   const listOfUsersOnline = useSelector((state) => state.messages.listOfUsersOnline);
   const currUser = useSelector((state) => state.messages.currUser);
+  const usersOnline = useSelector((state) => state.messages.usersOnline);
 
   useEffect(() => {
     socket.on('add user to state', (data) => {
@@ -16,9 +17,6 @@ const socket = io('http://localhost:3000');
     })
   }, [])
 
-
-
-
   const userList = Object.keys(listOfUsersOnline).map((username) => {
     // if (username === currUser) return;
     return <UsersOnlineSingleProfile  username={username}/>
@@ -26,7 +24,7 @@ const socket = io('http://localhost:3000');
 
   return (
     <div>
-      <h4> Users Currently Online:</h4>
+      <h4> Users Currently Online: {usersOnline}</h4>
       <ul>
         {userList}
       </ul>

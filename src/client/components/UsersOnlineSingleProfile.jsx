@@ -7,7 +7,7 @@ const UsersOnlineSingleProfile = ({ username }) => {
   return (
     <li>
     <div>
-    <h6>{username}</h6><span style={{color: 'green', display: 'inline'}}>  O</span>
+    <span style={{color: 'green', display: 'inline'}}><h6>{username}</h6></span>
     </div>
     </li>
   )
