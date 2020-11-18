@@ -47,6 +47,22 @@ const messageReducer = (state = initialState, action) => {
       }
     }
 
+    case types.NEW_USER: {
+      let newUser = action.payload
+      listOfUsersOnline = JSON.parse(JSON.stringify(state.listOfUsersOnline))
+      listOfUsersOnline[newUser] = {
+        username: newUser,
+        profileURL: ""
+      }
+      usersOnline = state.usersOnline;
+      usersOnline += 1
+      return {
+        ...state,
+        usersOnline,
+        listOfUsersOnline
+      }
+    }
+
     case types.LOGIN: {
       currUser = action.payload;
       usersOnline = state.usersOnline;

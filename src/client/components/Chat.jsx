@@ -40,6 +40,7 @@ export const Chat = () => {
   // };
 
   useEffect(() => {
+   
     // this is an active listener for a new message (sent from any user)
     socket.on('newMessage', (data) => {
       console.log('connected client side!');
@@ -66,7 +67,14 @@ export const Chat = () => {
       .catch((error) => {
         console.log(error);
       });
+
+    
   }, []);
+
+  // send the fact that a new user has joined to everyone else
+  useEffect(() => {
+    socket.emit("new user", currUser)
+  }, [currUser])
 
   function addMessageToDB(msgData) {
     fetch('/api/messages', {

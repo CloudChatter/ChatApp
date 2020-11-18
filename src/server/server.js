@@ -15,10 +15,16 @@ const io = require('socket.io')(server, options);
 
 io.on('connection', (socket) => {
   console.log('socket.io is connected on the server');
+  
   socket.on('message', (data) => {
     // console.log('message on the server', data)
     io.emit('newMessage', data);
   });
+
+  socket.on('new user', (data) => {
+    console.log('new user data on the server', data)
+    io.emit('add user to state', data)
+  })
 });
 
 //
