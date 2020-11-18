@@ -4,6 +4,7 @@ const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const path = require('path');
+const messageController = require("../server/controllers/messageController")
 
 io.on('connection', (socket) => {
   console.log('socket.io is connected on the server')
