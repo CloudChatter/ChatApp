@@ -40,24 +40,48 @@ export const Chat = () => {
   };
 
   useEffect(() => {
-    socket.on('newMessage', (data) => {
-      console.log('connected client side!')
-      dispatch({ type: 'ADD_MESSAGE', payload: data })
-    })}, [])
 
-  //   fetch('/api/messages')
-  //     .then(res => JSON.parse(res))
-  //     .then(data => {
-  //       const newMessages = []
-  //       for (let i = 0; i < data.length; i += 1) {
-  //         if (i === 20) return;
-  //         newMessages.push(data[i])
-  //       }
-  //       messages = newMessages
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
+    // this is an active listener for a new message (sent from any user)
+    socket.on('newMessage', (data) => {
+      // any new message that comes in (from a different user), add it to state
+      dispatch({ type: 'ADD_MESSAGE', payload: data })
+    });
+
+    // when a user joins, get the latest messages
+    // fetch('/api/messages')
+    //   .then(res => JSON.parse(res))
+    //   .then(data => {
+    //     const newMessages = []
+    //     for (let i = 0; i < 100; i += 1) {
+    //       newMessages.push(data[i])
+    //     }
+    //     messages = newMessages
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
+  
+  }, [])
+
+  function addMessageToDB(msgData) {
+    fetch('/api/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(msgData)
+    })
+      .then(res => {
+        console.log('server response', res)
+        return JSON.parse(res)
+      })
+      .then(data => {
+        console.log('message added to db')
+      })
+      .catch(error => {
+        console.log("error in adding msg to DB", error);
+      });
+  }
 
   function handleChange(e) {
     updateValue(e.target.value)
@@ -68,25 +92,13 @@ export const Chat = () => {
     const message = {
       content: value,
       created_by: currUser,
-      created_at: Date.now()
+      created_at: new Date().toISOString()
     }
     updateValue('')
+    // this sends the message to all users
     socket.emit('message', message)
 
-    // fetch('/api/messages', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(message)
-    // })
-    //   .then(res => JSON.parse(res))
-    //   .then(data => {
-    //     console.log('message added to db')
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
+    addMessageToDB(message)
   }
 
 
