@@ -140,7 +140,7 @@ const Chat = ({ history }) => {
   return (
     <div>
       <div style={{ display: 'flex' }}>
-        <div>
+        <div className="messages">
           <h3>Chat Room!</h3>
           <button onClick={handleLogOut}>Log Out</button>
           <ul className="messageList">
@@ -155,10 +155,10 @@ const Chat = ({ history }) => {
           <input value={value} onChange={handleChange} type="text" />
           <button onClick={handleSubmitChat}>Post!</button>
         </div>
-        {/* {listOfUsersOnline.length > 1 && <UsersOnlineDisplay />} */}
+        {!!messages.length && <WordCloudContainer />}
         <UsersDisplay />
       </div>
-      {!!messages.length && <WordCloudContainer />}
+      
     </div>
   );
 };

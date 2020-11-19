@@ -153,9 +153,16 @@ app.get('/api/logout', (req, res) => {
 
 app.use('/build', express.static(path.join(__dirname, '../../build')));
 
+
 app.get('/build/bundle.js', (req, res) => {
   res.sendFile(path.join(__dirname, '../../build/bundle.js'));
 });
+
+app.use('/styles', express.static(path.join(__dirname, "../client/styles/")))
+
+app.get('/styles/styles.css', (req, res ) => {
+  res.sendFile(path.join(__dirname, '../client/styles/styles.css'))
+})
 
 app.get('/', (req, res) => {
   console.log('get / is request authenticated?', req.isAuthenticated());
