@@ -35,6 +35,7 @@ const WordCloudContainer = () => {
       data.push({ 'text': word, 'value': count })
     }
     setTimeout(() => setWordCountData(makeWordCountData()), 5000)
+    console.log('words from word count data', data)
     return data;
   }
 
