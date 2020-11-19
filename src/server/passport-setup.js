@@ -48,11 +48,17 @@ passport.use(
     {
       clientID: process.env.GOOGLE_clientID,
       clientSecret: process.env.GOOGLE_clientSecret,
+      // this has to match wat was provided to google on goole website
       callbackURL: 'http://localhost:3000/auth/google/chat',
     },
     (acessToken, refreshToken, profile, cb) => {
       console.log('profile from Google is', profile);
-      const { id, displayName } = profile;
+      const { id, displayName, photos, emails } = profile;
+      const email = emails[0].value;
+      const photoURL = photos[0].value;
+
+      // we have access to email and photoURL now
+
       const newUser = { google_id: id, username: displayName };
 
       // insert logic for checking if the user exists in user database

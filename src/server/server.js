@@ -5,6 +5,8 @@ require('./passport-setup');
 const cors = require('cors');
 const path = require('path');
 const passport = require('passport');
+
+// Controllers
 const messageController = require('../server/controllers/messageController');
 const userController = require('./controllers/userController');
 
@@ -64,8 +66,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Function to check if request is authenticated, if so send username and isAuth back
 const afterAuthCB = (req, res) => {
-  console.log('in afterAuthCB');
   if (req.isAuthenticated()) {
     console.log('after authentication, user is', req.user);
     const { username } = req.user;
@@ -73,10 +75,12 @@ const afterAuthCB = (req, res) => {
       isAuth: true,
       username,
     });
-  } else
+  } else {
+    console.log('in afterAuthCB with unauth user');
     res.json({
       isAuth: false,
     });
+  }
 };
 
 app.get(
@@ -85,7 +89,7 @@ app.get(
     console.log('get request to auth/google');
     return next();
   },
-  passport.authenticate('google', { scope: ['profile'] })
+  passport.authenticate('google', { scope: ['email', 'profile'] })
 );
 
 app.get(
@@ -169,3 +173,5 @@ app.use((err, req, res, next) => {
 server.listen(3000, () => {
   console.log('server listening at port 3000');
 });
+
+module.exports = app;

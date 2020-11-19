@@ -6,11 +6,14 @@ import UsersDisplay from './UsersDisplay';
 import io from 'socket.io-client';
 const socket = io('http://localhost:3000');
 
-export const Chat = ({ history }) => {
+const Chat = ({ history }) => {
+  console.log('history is', history);
   const [value, updateValue] = useState('');
   const dispatch = useDispatch();
 
-  const listOfUsersOnline = useSelector((state) => state.messages.listOfUsersOnline);
+  const listOfUsersOnline = useSelector(
+    (state) => state.messages.listOfUsersOnline
+  );
   const messages = useSelector((state) => state.messages.messages);
   const currUser = useSelector((state) => state.messages.currUser);
 
@@ -40,7 +43,6 @@ export const Chat = ({ history }) => {
   // };
 
   useEffect(() => {
-   
     // this is an active listener for a new message (sent from any user)
     socket.on('newMessage', (data) => {
       console.log('connected client side!');
@@ -67,14 +69,14 @@ export const Chat = ({ history }) => {
       .catch((error) => {
         console.log(error);
       });
-      // as the last step when data is loaded, we will get all user data (from the socket)
+    // as the last step when data is loaded, we will get all user data (from the socket)
     // socket.emit('get all data');
   }, []);
 
   // send the fact that a new user has joined to everyone else
   useEffect(() => {
-    socket.emit("new user", currUser)
-  }, [currUser])
+    socket.emit('new user', currUser);
+  }, [currUser]);
 
   function addMessageToDB(msgData) {
     fetch('/api/messages', {
@@ -119,12 +121,9 @@ export const Chat = ({ history }) => {
     fetch('api/logout')
       .then((data) => data.json())
       .then((data) => {
-        console.log('data from logout', data);
-        console.log('history is', history);
-        console.log('this.props is', this.props);
+        // data from server is {isAuth: false, username: undefined}
         dispatch({ type: 'LOGOUT', payload: data.username });
-        // history.push('/'); // ERROR - history undefined
-        fetch('/');
+        history.push('/');
       })
       .catch((err) => {
         console.log(err);
@@ -132,9 +131,10 @@ export const Chat = ({ history }) => {
   }
   return (
     <div>
-      <div style={{display: 'flex'}}>
+      <div style={{ display: 'flex' }}>
         <div>
           <h3>Chat Room!</h3>
+          <button onClick={handleLogOut}>Log Out</button>
           <ul className="messageList">
             {messages.map((message) => {
               return (
