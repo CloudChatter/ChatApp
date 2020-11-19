@@ -23,6 +23,7 @@ const Login = ({ history }) => {
         if (data.isAuth) {
           console.log('data is', data);
           dispatch({ type: 'LOGIN', payload: data.username });
+          console.log('history is', history);
           history.push('/chat');
         } else {
           // display login retry message
@@ -48,6 +49,7 @@ const Login = ({ history }) => {
         console.log('response from google oauth', data);
         if (data.isAuth) {
           console.log('data is', data);
+          console.log('history is', history);
           dispatch({ type: 'LOGIN', payload: data.username });
           history.push('/chat');
         } else {
@@ -73,9 +75,9 @@ const Login = ({ history }) => {
       <button onClick={handleClick}>Submit</button>
       {/* <button onClick={handleGoogleClick}>Google</button> */}
       <a href="/auth/google">Google</a>
-      {/* <Link to={'/register'}>
+      <Link to={'/register'}>
         <button> Register Here</button>
-      </Link> */}
+      </Link>
     </>
   );
 };

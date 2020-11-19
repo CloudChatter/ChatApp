@@ -44,7 +44,7 @@ const messageReducer = (state = initialState, action) => {
         ...state,
         messages,
         messageCount,
-      }
+      };
     }
 
     case types.USER_LEFT: {
@@ -118,14 +118,17 @@ const messageReducer = (state = initialState, action) => {
       usersOnline = state.usersOnline;
       usersOnline -= 1;
       listOfUsersOnline = JSON.parse(JSON.stringify(state.listOfUsersOnline))
+      currUser = action.payload;
       delete listOfUsersOnline[currUser]
       return {
         ...state,
         usersOnline,
+        currUser,
       };
     }
 
-    default: return state;
+    default:
+      return state;
   }
 };
 

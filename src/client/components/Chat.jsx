@@ -6,7 +6,7 @@ import UsersDisplay from './UsersDisplay';
 import io from 'socket.io-client';
 const socket = io('http://localhost:3000');
 
-export const Chat = () => {
+export const Chat = ({ history }) => {
   const [value, updateValue] = useState('');
   const dispatch = useDispatch();
 
@@ -114,6 +114,22 @@ export const Chat = () => {
     addMessageToDB(message);
   }
 
+  function handleLogOut(e) {
+    e.preventDefault();
+    fetch('api/logout')
+      .then((data) => data.json())
+      .then((data) => {
+        console.log('data from logout', data);
+        console.log('history is', history);
+        console.log('this.props is', this.props);
+        dispatch({ type: 'LOGOUT', payload: data.username });
+        // history.push('/'); // ERROR - history undefined
+        fetch('/');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   return (
     <div>
       <div style={{display: 'flex'}}>
