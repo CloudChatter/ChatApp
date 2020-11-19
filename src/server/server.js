@@ -83,6 +83,16 @@ app.get('/chat', (req, res) => {
   } else res.redirect('/');
 });
 
+app.get('/auth/facebook', passport.authenticate('facebook'));
+
+app.get('/auth/facebook/chat', (req, res, next) => {
+  console.log('authenticated with facebook');
+  return next();
+}, passport.authenticate('facebook', {
+  failureRedirect: '/',
+  successRedirect: '/chat',
+}));
+
 app.get('/api/login/success', afterAuthCB);
 
 app.post(

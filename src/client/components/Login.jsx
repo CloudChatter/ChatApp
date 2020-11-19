@@ -75,6 +75,7 @@ const Login = ({ history }) => {
       <button onClick={handleClick}>Submit</button>
       {/* <button onClick={handleGoogleClick}>Google</button> */}
       <a href="/auth/google">Google</a>
+      <a href="/auth/facebook">Login with Facebook</a>
       <Link to={'/register'}>
         <button> Register Here</button>
       </Link>
