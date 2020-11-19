@@ -137,10 +137,15 @@ const Chat = ({ history }) => {
         console.log(err);
       });
   }
+
+  const messagesStyleObj = {
+      'overflow-y': 'auto !important',
+      'max-height': '850px'
+  }
   return (
     <div>
       <div style={{ display: 'flex' }}>
-        <div className="messages">
+        <div style={messagesStyleObj}>
           <h3>Chat Room!</h3>
           <button onClick={handleLogOut}>Log Out</button>
           <ul className="messageList">
