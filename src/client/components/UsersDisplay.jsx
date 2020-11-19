@@ -1,7 +1,13 @@
 import React, {useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import io from 'socket.io-client';
-const socket = io(process.env.PORT || 'http://localhost:3000');
+// let socketPort;
+// if (!process) alert('no process')
+// if (process && process.env && process.env.PORT) {
+//   socketPort = process.env.PORT
+// } else socketPort = 'http://localhost:3000'
+
+const socket = io('http://localhost:3000');
 
  const UsersDisplay = () => {
   const dispatch = useDispatch();
