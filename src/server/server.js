@@ -177,7 +177,7 @@ app.get('/api/messages', messageController.getMessages, (req, res) => {
 
 app.post('/api/messages', messageController.postMessage, (req, res) => {
   if (res.locals.messageAdded) console.log('message successfully added to DB');
-  return res.status(200);
+  return res.status(200).send({ data: "message added "});
 });
 
 app.get('*', (req, res) => {
