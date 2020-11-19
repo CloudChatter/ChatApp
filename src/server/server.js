@@ -17,7 +17,7 @@ const io = require('socket.io')(server, options);
 
 io.on('connection', (socket) => {
   console.log('a user has connected to the socket');
-  
+
   socket.on('message', (data) => {
     io.emit('newMessage', data);
   });
@@ -31,27 +31,26 @@ io.on('connection', (socket) => {
   // })
 
   socket.on('new user', (username) => {
-    const data = {}
-    data.socketID = socket.id
+    const data = {};
+    data.socketID = socket.id;
     // data.usersOnline = io.engine.clientsCount
-    data.username = username
+    data.username = username;
     // console.log('new user data on the server', data)
-    io.emit('add user to state', data)
+    io.emit('add user to state', data);
     // console.log(Object.keys(io.eio.clients))
-    
-  })
+  });
 
   socket.on('disconnect', () => {
-    console.log('client disconnected')
-    io.emit('user left', socket.id)
-  })
+    console.log('client disconnected');
+    io.emit('user left', socket.id);
+  });
 });
 
 // Application Level Middleware
-const cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 const session = require('express-session');
 app.use(cors());
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
@@ -112,13 +111,17 @@ app.get('/chat', (req, res) => {
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
 
-app.get('/auth/facebook/chat', (req, res, next) => {
-  console.log('authenticated with facebook');
-  return next();
-}, passport.authenticate('facebook', {
-  failureRedirect: '/',
-  successRedirect: '/chat',
-}));
+app.get(
+  '/auth/facebook/chat',
+  (req, res, next) => {
+    console.log('authenticated with facebook');
+    return next();
+  },
+  passport.authenticate('facebook', {
+    failureRedirect: '/',
+    successRedirect: '/chat',
+  })
+);
 
 app.get('/api/login/success', afterAuthCB);
 
@@ -136,19 +139,12 @@ app.get('/register', (req, res) => {
 app.post('/api/login', passport.authenticate('local'), afterAuthCB);
 
 app.get('/api/logout', (req, res) => {
-  // console.log('logout path, isAuthenticated is', req.isAuthenticated());
-  // console.log('is there a req.logout?', String(req.logout));
   console.log('invoking req.logout');
   req.logOut();
-  // res.redirect('/');
   res.status(200).json({ isAuth: false, username: undefined });
 });
 
 app.use('/build', express.static(path.join(__dirname, '../../build')));
-
-app.get('/build/bundle.js', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../build/bundle.js'));
-});
 
 app.get('/', (req, res) => {
   console.log('get / is request authenticated?', req.isAuthenticated());
@@ -180,6 +176,7 @@ app.use((err, req, res, next) => {
   console.log(errorObj.log);
   return res.status(errorObj.status).json(errorObj.message);
 });
+
 server.listen(3000, () => {
   console.log('server listening at port 3000');
 });
