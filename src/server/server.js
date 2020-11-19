@@ -185,8 +185,8 @@ app.use((err, req, res, next) => {
   console.log(errorObj.log);
   return res.status(errorObj.status).json(errorObj.message);
 });
-server.listen(3000, () => {
-  console.log('server listening at port 3000');
+server.listen(process.env.PORT || 3000, () => {
+  console.log('server listening....');
 });
 
 module.exports = app;
