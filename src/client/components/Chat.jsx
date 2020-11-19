@@ -143,7 +143,7 @@ const Chat = ({ history }) => {
       'max-height': '850px'
   }
 
-  messages = messages.reverse()
+  orderedMessages = messages.reverse()
   return (
     <div>
       <div style={{ display: 'flex' }}>
@@ -153,7 +153,7 @@ const Chat = ({ history }) => {
           <button onClick={handleSubmitChat}>Post!</button>
           <button onClick={handleLogOut}>Log Out</button>
           <ul className="messageList">
-            {messages.map((message) => {
+            {orderedMessages.map((message) => {
               return (
                 <li>
                   {message.created_by} - {message.content}
