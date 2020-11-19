@@ -12,7 +12,7 @@ import io from 'socket.io-client';
 //   socketPort = process.env.PORT
 // } else socketPort = 'http://localhost:3000'
 // const socket = io(socketPort);
-const socket = io(process.env.PORT || 'http://localhost:3000');
+const socket = io("https://chatter-cloud.herokuapp.com/");
 
 const Chat = ({ history }) => {
   console.log('history is', history);
