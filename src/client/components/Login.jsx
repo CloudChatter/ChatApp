@@ -44,6 +44,7 @@ const Login = ({ history }) => {
       ></input>
       <button onClick={handleClick}>Submit</button>
       <a href="/auth/google">Google</a>
+      <a href="/auth/facebook">Login with Facebook</a>
       <Link to={'/register'}>
         <button> Register Here</button>
       </Link>
