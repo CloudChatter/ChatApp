@@ -118,8 +118,8 @@ const messageReducer = (state = initialState, action) => {
       usersOnline = state.usersOnline;
       usersOnline -= 1;
       listOfUsersOnline = JSON.parse(JSON.stringify(state.listOfUsersOnline))
-      currUser = action.payload;
-      delete listOfUsersOnline[currUser]
+      currUser = ""
+      delete listOfUsersOnline[state.currUser]
       return {
         ...state,
         usersOnline,
