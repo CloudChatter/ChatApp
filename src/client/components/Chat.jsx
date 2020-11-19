@@ -7,11 +7,6 @@ import io from 'socket.io-client';
 // import dotenv from 'dotenv'
 // dotenv.config();
 
-// let socketPort;
-// if (process && process.env && process.env.PORT) {
-//   socketPort = process.env.PORT
-// } else socketPort = 'http://localhost:3000'
-// const socket = io(socketPort);
 const socket = io("https://chatter-cloud.herokuapp.com/");
 
 const Chat = ({ history }) => {
@@ -22,7 +17,7 @@ const Chat = ({ history }) => {
   const listOfUsersOnline = useSelector(
     (state) => state.messages.listOfUsersOnline
   );
-  const messages = useSelector((state) => state.messages.messages);
+  const messages = useSelector((state) => state.messages.messages.reverse());
   const currUser = useSelector((state) => state.messages.currUser);
 
   // fetch('https://github.com/login/oauth/authorize')
@@ -143,7 +138,7 @@ const Chat = ({ history }) => {
       'max-height': '850px'
   }
 
-  const orderedMessages = messages.reverse()
+  
   return (
     <div>
       <div style={{ display: 'flex' }}>
@@ -153,7 +148,7 @@ const Chat = ({ history }) => {
           <button onClick={handleSubmitChat}>Post!</button>
           <button onClick={handleLogOut}>Log Out</button>
           <ul className="messageList">
-            {orderedMessages.map((message) => {
+            {messages.map((message) => {
               return (
                 <li>
                   {message.created_by} - {message.content}
