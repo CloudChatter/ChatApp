@@ -50,12 +50,17 @@ io.on('connection', (socket) => {
 // Application Level Middleware
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+var FileStore = require('session-file-store')(session);
+ 
+var fileStoreOptions = {};
+ 
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
+    store: new FileStore(fileStoreOptions),
     secret: 'cat',
     resave: true,
     saveUninitialized: true,
