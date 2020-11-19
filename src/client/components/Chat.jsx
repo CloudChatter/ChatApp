@@ -143,7 +143,7 @@ const Chat = ({ history }) => {
       'max-height': '850px'
   }
 
-  orderedMessages = messages.reverse()
+  const orderedMessages = messages.reverse()
   return (
     <div>
       <div style={{ display: 'flex' }}>

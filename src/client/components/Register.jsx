@@ -51,10 +51,12 @@ const Register = ({ history }) => {
         onChange={(e) => updatePassword(e.target.value)}
       ></input>
       <button onClick={handleClick}>Submit</button>
-      <a href="/auth/google">Google</a>
+      <div style={{ display: 'flex' }}>
       <Link to={'/'}>
-        <button>Sign-in Here</button>
+        <button>Already have an account?</button>
       </Link>
+      <a href="/auth/google">Login with Google</a>
+      </div>
     </>
   );
 };
