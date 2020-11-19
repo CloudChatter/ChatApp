@@ -89,12 +89,9 @@ const Chat = ({ history }) => {
       },
       body: JSON.stringify(msgData),
     })
-      .then((res) => {
-        console.log('server response', res);
-        return res.json()
-      })
+      .then((res) => res.json())
       .then((data) => {
-        console.log('message added to db');
+        console.log('message added to db', data);
       })
       .catch((error) => {
         console.log('error in adding msg to DB', error);
