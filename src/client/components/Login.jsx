@@ -43,11 +43,13 @@ const Login = ({ history }) => {
         onChange={(e) => updatePassword(e.target.value)}
       ></input>
       <button onClick={handleClick}>Submit</button>
-      <a href="/auth/google">Google</a>
-      <a href="/auth/facebook">Login with Facebook</a>
+      <div style={{ display: 'flex' }}>
       <Link to={'/register'}>
         <button> Register Here</button>
       </Link>
+      <a href="/auth/google">Login with Google</a>
+      {/* <a href="/auth/facebook">Login with Facebook</a> */}
+      </div>
     </>
   );
 };

@@ -13,7 +13,9 @@ const WordCloudContainer = () => {
 
   useEffect(() => {
     setWordCountData(makeWordCountData())
-  }, [messages])
+  }, [])
+
+  
 
   const wordsToOmit = ["and", "the", "that", 'have', 'with', 'you', 'this', 'but', 'from', 'they', 'would', 'there', 'their', 'what', 'about', 'when', 'make']
   const makeWordCountData = () => {
@@ -32,6 +34,7 @@ const WordCloudContainer = () => {
     for (let [word, count] of Object.entries(wordCount)) {
       data.push({ 'text': word, 'value': count })
     }
+    setTimeout(() => setWordCountData(makeWordCountData()), 5000)
     return data;
   }
 

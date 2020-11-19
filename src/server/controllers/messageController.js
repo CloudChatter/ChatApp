@@ -30,7 +30,7 @@ messageController.postMessage = (req, res, next) => {
 };
 
 messageController.getMessages = (req, res, next) => {
-  const query = `SELECT * FROM "public"."messages" LIMIT 100`;
+  const query = `SELECT * FROM "public"."messages" LIMIT 50`;
 
   db.query(query)
     .then((data) => {
