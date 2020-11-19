@@ -19,37 +19,7 @@ const Login = ({ history }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log('response from login POST', data);
         if (data.isAuth) {
-          console.log('data is', data);
-          dispatch({ type: 'LOGIN', payload: data.username });
-          console.log('history is', history);
-          history.push('/chat');
-        } else {
-          // display login retry message
-        }
-      })
-      .catch((err) => console.log(err));
-  }
-
-  function handleGoogleClick(e) {
-    // e.preventDefault();
-    console.log('hello from google button');
-    fetch('/auth/google', {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Credentials': true,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('response from google oauth', data);
-        if (data.isAuth) {
-          console.log('data is', data);
-          console.log('history is', history);
           dispatch({ type: 'LOGIN', payload: data.username });
           history.push('/chat');
         } else {
@@ -73,8 +43,8 @@ const Login = ({ history }) => {
         onChange={(e) => updatePassword(e.target.value)}
       ></input>
       <button onClick={handleClick}>Submit</button>
-      {/* <button onClick={handleGoogleClick}>Google</button> */}
       <a href="/auth/google">Google</a>
+      <a href="/auth/facebook">Login with Facebook</a>
       <Link to={'/register'}>
         <button> Register Here</button>
       </Link>
@@ -82,5 +52,4 @@ const Login = ({ history }) => {
   );
 };
 
-// export default Login;
 export default withRouter(Login);

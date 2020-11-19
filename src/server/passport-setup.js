@@ -2,6 +2,8 @@ const passport = require('passport');
 
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
+
 
 const db = require('./dbModel');
 const bcrypt = require('bcrypt');
@@ -48,11 +50,17 @@ passport.use(
     {
       clientID: process.env.GOOGLE_clientID,
       clientSecret: process.env.GOOGLE_clientSecret,
+      // this has to match wat was provided to google on goole website
       callbackURL: 'http://localhost:3000/auth/google/chat',
     },
     (acessToken, refreshToken, profile, cb) => {
       console.log('profile from Google is', profile);
-      const { id, displayName } = profile;
+      const { id, displayName, photos, emails } = profile;
+      const email = emails[0].value;
+      const photoURL = photos[0].value;
+
+      // we have access to email and photoURL now
+
       const newUser = { google_id: id, username: displayName };
 
       // insert logic for checking if the user exists in user database
@@ -84,3 +92,42 @@ passport.use(
     }
   )
 );
+
+
+passport.use(new FacebookStrategy({
+  clientID: process.env.FACEBOOK_APP_ID,
+  clientSecret: process.env.FACEBOOK_APP_SECRET,
+  callbackURL: "http://localhost:3000/auth/facebook/chat"
+},
+  function (accessToken, refreshToken, profile, cb) {
+    console.log(profile)
+    const { id, displayName } = profile;
+    const newUser = { facebook_id: id, username: displayName }
+
+    const queryStr = `SELECT * FROM PUBLIC.USERS WHERE facebook_id = $1`
+    db.query(queryStr, [id])
+      .then((data) => {
+        if (data.rows[0]) {
+          const user = data.rows[0];
+          return cb(null, user)
+        }
+
+        const queryString = `INSERT INTO PUBLIC.USERS (facebook_id, username)
+        VALUES ($1, $2)
+        RETURNING *`;
+        const values = [id, displayName];
+        db.query(queryString, values)
+          .then((data) => {
+            if (!data.rows[0])
+              return next({ message: 'nothing from database' });
+            const user = data.rows[0];
+            return cb(null, user);
+          })
+          .catch((err) => {
+            console.log('error in createUser using facebook OAuth', err);
+            return cb(err);
+          })
+      })
+      .catch((err) => cb(err));
+  }
+));
