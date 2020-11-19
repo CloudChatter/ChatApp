@@ -91,7 +91,7 @@ const Chat = ({ history }) => {
     })
       .then((res) => {
         console.log('server response', res);
-        return JSON.parse(res);
+        return res.json()
       })
       .then((data) => {
         console.log('message added to db');
