@@ -42,12 +42,14 @@ const WordCloudContainer = () => {
   const fontSizeMapper = word => Math.log2(word.value) * 5;
   const rotate = word => word.value % 360;
   const onWordMouseOver = word => alert(word);
+  const minSize = [600, 600];
 
   return (
     <div style={{ border: '2px solid lightgrey' }}>
       <ReactWordcloud
         words={wordCountData}
         rotate={rotate}
+        minSize={minSize}
         onWordMouseOver={onWordMouseOver}
       />
     </div>
