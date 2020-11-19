@@ -3,7 +3,7 @@ const db = require('../dbModel');
 const messageController = {};
 
 messageController.postMessage = (req, res, next) => {
-  // console.log("post message req.body", req.body)
+  console.log("post message req.body", req.body)
   const { created_by, content, created_at } = req.body;
   const SQLDate = created_at.slice(0, 19).replace('T', ' ');
 
@@ -34,7 +34,7 @@ messageController.getMessages = (req, res, next) => {
 
   db.query(query)
     .then((data) => {
-      // console.log('data from message request: ', data)
+      console.log('data from message request: ', data)
       res.locals.messages = data.rows;
       return next();
     })
