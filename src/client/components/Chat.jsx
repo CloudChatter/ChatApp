@@ -142,11 +142,15 @@ const Chat = ({ history }) => {
       'overflow-y': 'auto !important',
       'max-height': '850px'
   }
+
+  messages = messages.reverse()
   return (
     <div>
       <div style={{ display: 'flex' }}>
         <div style={messagesStyleObj}>
           <h3>Chat Room!</h3>
+          <input value={value} onChange={handleChange} type="text" />
+          <button onClick={handleSubmitChat}>Post!</button>
           <button onClick={handleLogOut}>Log Out</button>
           <ul className="messageList">
             {messages.map((message) => {
@@ -157,8 +161,7 @@ const Chat = ({ history }) => {
               );
             })}
           </ul>
-          <input value={value} onChange={handleChange} type="text" />
-          <button onClick={handleSubmitChat}>Post!</button>
+          
         </div>
         {!!messages.length && <WordCloudContainer />}
         <UsersDisplay />
