@@ -1,6 +1,7 @@
 import * as types from '../actions/actionTypes';
 
 const initialState = {
+  listOfUsersOnline: {},
   messageCount: 0,
   usersOnline: 0,
   messages: [],
@@ -14,6 +15,7 @@ const messageReducer = (state = initialState, action) => {
   let messageCount;
   let usersOnline;
   let currUser;
+  let listOfUsersOnline;
 
   switch (action.type) {
     case types.ADD_MESSAGE: {
@@ -45,22 +47,79 @@ const messageReducer = (state = initialState, action) => {
       };
     }
 
+    case types.USER_LEFT: {
+      
+      usersOnline = state.usersOnline - 1;
+      listOfUsersOnline = JSON.parse(JSON.stringify(state.listOfUsersOnline))
+      for (let [username, data] of Object.entries(listOfUsersOnline)) {
+        if (listOfUsersOnline[username]['socketID'] === action.payload) {
+          delete listOfUsersOnline[username]
+        }
+      }
+      return {
+        ...state,
+        usersOnline,
+        listOfUsersOnline,
+      }
+    }
+    // case types.BUILD_USER_DATA: {
+    //   usersOnline = action.payload.usersOnline
+    //   const socketIDs = action.payload.socketIDs
+    //   listOfUsersOnline = listOfUsersOnline = JSON.parse(JSON.stringify(state.listOfUsersOnline))
+    //   Object.keys(listOfUsersOnline).forEach((user) => {
+    //     if (!socketIDs.includes(listOfUsersOnline[user]['socketID'])) {
+    //       listOfUsersOnline[user] = {
+    //         username: 'Unknown',
+    //         profileURL: ""
+    //       }
+    //     }
+    //   });
+    //   return {
+    //     ...state,
+    //     usersOnline,
+    //     listOfUsersOnline
+    //   }
+    // }
+
+    case types.NEW_USER: {
+      const { socketID, username } = action.payload
+      usersOnline = state.usersOnline + 1;
+      listOfUsersOnline = JSON.parse(JSON.stringify(state.listOfUsersOnline))
+      listOfUsersOnline[username] = {
+        username,
+        socketID,
+      }
+      return {
+        ...state,
+        usersOnline,
+        listOfUsersOnline
+      }
+    }
+
     case types.LOGIN: {
       currUser = action.payload;
       usersOnline = state.usersOnline;
       usersOnline += 1;
       currUser = action.payload;
+      listOfUsersOnline = JSON.parse(JSON.stringify(state.listOfUsersOnline))
+      listOfUsersOnline[currUser] = {
+        username: currUser,
+        profileURL: ""
+      }
       return {
         ...state,
         currUser,
         usersOnline,
+        listOfUsersOnline,
       };
     }
 
     case types.LOGOUT: {
       usersOnline = state.usersOnline;
       usersOnline -= 1;
+      listOfUsersOnline = JSON.parse(JSON.stringify(state.listOfUsersOnline))
       currUser = action.payload;
+      delete listOfUsersOnline[currUser]
       return {
         ...state,
         usersOnline,

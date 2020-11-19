@@ -16,10 +16,35 @@ const options = { cors: true, origin: ['http://localhost:8080'] };
 const io = require('socket.io')(server, options);
 
 io.on('connection', (socket) => {
-  console.log('socket.io is connected on the server');
+  console.log('a user has connected to the socket');
+  
   socket.on('message', (data) => {
     io.emit('newMessage', data);
   });
+
+  // socket.on('get all data', () => {
+  //   const data = {
+  //     usersOnline: io.engine.clientsCount,
+  //     socketIDs: Object.keys(io.eio.clients)
+  //   }
+  //   io.emit('all user data', data)
+  // })
+
+  socket.on('new user', (username) => {
+    const data = {}
+    data.socketID = socket.id
+    // data.usersOnline = io.engine.clientsCount
+    data.username = username
+    // console.log('new user data on the server', data)
+    io.emit('add user to state', data)
+    // console.log(Object.keys(io.eio.clients))
+    
+  })
+
+  socket.on('disconnect', () => {
+    console.log('client disconnected')
+    io.emit('user left', socket.id)
+  })
 });
 
 // Application Level Middleware
