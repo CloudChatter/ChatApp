@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "jest --verbose",
-    "start": "nodemon src/server/server.js",
+    "start": "node src/server/server.js",
     "build": "webpack",
     "react": "webpack serve",
     "dev": "NODE_ENV=development nodemon src/server/server.js & webpack serve"
