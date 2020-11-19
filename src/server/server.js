@@ -5,10 +5,10 @@ require('./passport-setup');
 const cors = require('cors');
 const path = require('path');
 const passport = require('passport');
+
+// Controllers
 const messageController = require('../server/controllers/messageController');
 const userController = require('./controllers/userController');
-
-app.use(express.json());
 
 // WEBSOCKET CONFIG
 const server = require('http').createServer(app);
@@ -16,10 +16,35 @@ const options = { cors: true, origin: ['http://localhost:8080'] };
 const io = require('socket.io')(server, options);
 
 io.on('connection', (socket) => {
-  console.log('socket.io is connected on the server');
+  console.log('a user has connected to the socket');
+  
   socket.on('message', (data) => {
     io.emit('newMessage', data);
   });
+
+  // socket.on('get all data', () => {
+  //   const data = {
+  //     usersOnline: io.engine.clientsCount,
+  //     socketIDs: Object.keys(io.eio.clients)
+  //   }
+  //   io.emit('all user data', data)
+  // })
+
+  socket.on('new user', (username) => {
+    const data = {}
+    data.socketID = socket.id
+    // data.usersOnline = io.engine.clientsCount
+    data.username = username
+    // console.log('new user data on the server', data)
+    io.emit('add user to state', data)
+    // console.log(Object.keys(io.eio.clients))
+    
+  })
+
+  socket.on('disconnect', () => {
+    console.log('client disconnected')
+    io.emit('user left', socket.id)
+  })
 });
 
 // Application Level Middleware
@@ -41,8 +66,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Function to check if request is authenticated, if so send username and isAuth back
 const afterAuthCB = (req, res) => {
-  console.log('in afterAuthCB');
   if (req.isAuthenticated()) {
     console.log('after authentication, user is', req.user);
     const { username } = req.user;
@@ -50,10 +75,12 @@ const afterAuthCB = (req, res) => {
       isAuth: true,
       username,
     });
-  } else
+  } else {
+    console.log('in afterAuthCB with unauth user');
     res.json({
       isAuth: false,
     });
+  }
 };
 
 app.get(
@@ -62,7 +89,7 @@ app.get(
     console.log('get request to auth/google');
     return next();
   },
-  passport.authenticate('google', { scope: ['profile'] })
+  passport.authenticate('google', { scope: ['email', 'profile'] })
 );
 
 app.get(
@@ -156,3 +183,5 @@ app.use((err, req, res, next) => {
 server.listen(3000, () => {
   console.log('server listening at port 3000');
 });
+
+module.exports = app;
