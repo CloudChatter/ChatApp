@@ -44,7 +44,7 @@ const messageReducer = (state = initialState, action) => {
         ...state,
         messages,
         messageCount,
-      }
+      };
     }
 
     case types.NEW_USER: {
@@ -89,10 +89,12 @@ const messageReducer = (state = initialState, action) => {
       return {
         ...state,
         usersOnline,
+        currUser,
       };
     }
 
-    default: return state;
+    default:
+      return state;
   }
 };
 
