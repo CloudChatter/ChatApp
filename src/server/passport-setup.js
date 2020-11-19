@@ -51,7 +51,7 @@ passport.use(
       clientID: process.env.GOOGLE_clientID,
       clientSecret: process.env.GOOGLE_clientSecret,
       // this has to match wat was provided to google on goole website
-      callbackURL: 'http://localhost:3000/auth/google/chat',
+      callbackURL: process.env.PORT ? 'https://chatter-cloud.herokuapp.com/auth/google/chat' : 'http://localhost:3000/auth/google/chat',
     },
     (acessToken, refreshToken, profile, cb) => {
       console.log('profile from Google is', profile);
@@ -97,7 +97,7 @@ passport.use(
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
-  callbackURL: "http://localhost:3000/auth/facebook/chat"
+  callbackURL: `${process.env.PORT}/auth/facebook/chat` || 'localhost:3000/auth/facebook/chat'
 },
   function (accessToken, refreshToken, profile, cb) {
     console.log(profile)

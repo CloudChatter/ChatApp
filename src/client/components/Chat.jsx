@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import WordCloudContainer from './WordCloudContainer';
 import UsersDisplay from './UsersDisplay';
 import io from 'socket.io-client';
-const socket = io('http://localhost:3000');
+const socket = io(process.env.PORT || 'http://localhost:3000');
 
 const Chat = ({ history }) => {
   console.log('history is', history);
