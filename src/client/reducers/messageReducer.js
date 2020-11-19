@@ -47,15 +47,48 @@ const messageReducer = (state = initialState, action) => {
       };
     }
 
-    case types.NEW_USER: {
-      let newUser = action.payload
+    case types.USER_LEFT: {
+      
+      usersOnline = state.usersOnline - 1;
       listOfUsersOnline = JSON.parse(JSON.stringify(state.listOfUsersOnline))
-      listOfUsersOnline[newUser] = {
-        username: newUser,
-        profileURL: ""
+      for (let [username, data] of Object.entries(listOfUsersOnline)) {
+        if (listOfUsersOnline[username]['socketID'] === action.payload) {
+          delete listOfUsersOnline[username]
+        }
       }
-      usersOnline = state.usersOnline;
-      usersOnline += 1
+      return {
+        ...state,
+        usersOnline,
+        listOfUsersOnline,
+      }
+    }
+    // case types.BUILD_USER_DATA: {
+    //   usersOnline = action.payload.usersOnline
+    //   const socketIDs = action.payload.socketIDs
+    //   listOfUsersOnline = listOfUsersOnline = JSON.parse(JSON.stringify(state.listOfUsersOnline))
+    //   Object.keys(listOfUsersOnline).forEach((user) => {
+    //     if (!socketIDs.includes(listOfUsersOnline[user]['socketID'])) {
+    //       listOfUsersOnline[user] = {
+    //         username: 'Unknown',
+    //         profileURL: ""
+    //       }
+    //     }
+    //   });
+    //   return {
+    //     ...state,
+    //     usersOnline,
+    //     listOfUsersOnline
+    //   }
+    // }
+
+    case types.NEW_USER: {
+      const { socketID, username } = action.payload
+      usersOnline = state.usersOnline + 1;
+      listOfUsersOnline = JSON.parse(JSON.stringify(state.listOfUsersOnline))
+      listOfUsersOnline[username] = {
+        username,
+        socketID,
+      }
       return {
         ...state,
         usersOnline,
@@ -85,6 +118,10 @@ const messageReducer = (state = initialState, action) => {
       usersOnline = state.usersOnline;
       usersOnline -= 1;
       listOfUsersOnline = JSON.parse(JSON.stringify(state.listOfUsersOnline))
+<<<<<<< HEAD
+=======
+      currUser = action.payload;
+>>>>>>> 037ec6e38805bc0ad798c0f5bf836c1391064bd8
       delete listOfUsersOnline[currUser]
       return {
         ...state,
