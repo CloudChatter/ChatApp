@@ -10,7 +10,7 @@ export const getMessages = (latestMessages) => ({
   payload: latestMessages,
 })
 
-export const getMessages = (newUsername) => ({
+export const newUser = (newUsername) => ({
   type: types.NEW_USER,
   payload: latestMessages,
 })
