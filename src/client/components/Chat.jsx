@@ -11,7 +11,9 @@ const Chat = ({ history }) => {
   const [value, updateValue] = useState('');
   const dispatch = useDispatch();
 
-  const listOfUsersOnline = useSelector((state) => state.messages.listOfUsersOnline);
+  const listOfUsersOnline = useSelector(
+    (state) => state.messages.listOfUsersOnline
+  );
   const messages = useSelector((state) => state.messages.messages);
   const currUser = useSelector((state) => state.messages.currUser);
 
@@ -41,7 +43,6 @@ const Chat = ({ history }) => {
   // };
 
   useEffect(() => {
-   
     // this is an active listener for a new message (sent from any user)
     socket.on('newMessage', (data) => {
       console.log('connected client side!');
@@ -68,14 +69,14 @@ const Chat = ({ history }) => {
       .catch((error) => {
         console.log(error);
       });
-      // as the last step when data is loaded, we will get all user data (from the socket)
+    // as the last step when data is loaded, we will get all user data (from the socket)
     // socket.emit('get all data');
   }, []);
 
   // send the fact that a new user has joined to everyone else
   useEffect(() => {
-    socket.emit("new user", currUser)
-  }, [currUser])
+    socket.emit('new user', currUser);
+  }, [currUser]);
 
   function addMessageToDB(msgData) {
     fetch('/api/messages', {
@@ -120,7 +121,7 @@ const Chat = ({ history }) => {
     fetch('api/logout')
       .then((data) => data.json())
       .then((data) => {
-        // data = {isAuth: false, username: undefined}
+        // data from server is {isAuth: false, username: undefined}
         dispatch({ type: 'LOGOUT', payload: data.username });
         history.push('/');
       })
@@ -130,9 +131,10 @@ const Chat = ({ history }) => {
   }
   return (
     <div>
-      <div style={{display: 'flex'}}>
+      <div style={{ display: 'flex' }}>
         <div>
           <h3>Chat Room!</h3>
+          <button onClick={handleLogOut}>Log Out</button>
           <ul className="messageList">
             {messages.map((message) => {
               return (
