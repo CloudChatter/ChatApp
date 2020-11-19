@@ -38,7 +38,7 @@ const messageReducer = (state = initialState, action) => {
     // }
 
     case types.GET_MESSAGES: {
-      let messages = action.payload;
+      let messages = action.payload.reverse();
       let messageCount = messages.length;
       return {
         ...state,
