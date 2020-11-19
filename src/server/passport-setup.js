@@ -97,7 +97,7 @@ passport.use(
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
-  callbackURL: `${process.env.PORT}/auth/facebook/chat` || 'localhost:3000/auth/facebook/chat'
+  callbackURL: process.env.PORT ? 'https://chatter-cloud.herokuapp.com/auth/facebook/chat' : 'localhost:3000/auth/facebook/chat'
 },
   function (accessToken, refreshToken, profile, cb) {
     console.log(profile)
