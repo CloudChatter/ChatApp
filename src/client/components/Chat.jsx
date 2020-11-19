@@ -17,7 +17,7 @@ const Chat = ({ history }) => {
   const listOfUsersOnline = useSelector(
     (state) => state.messages.listOfUsersOnline
   );
-  const messages = useSelector((state) => state.messages.messages.reverse());
+  const messages = useSelector((state) => state.messages.messages);
   const currUser = useSelector((state) => state.messages.currUser);
 
   // fetch('https://github.com/login/oauth/authorize')
@@ -135,7 +135,7 @@ const Chat = ({ history }) => {
 
   const messagesStyleObj = {
       'overflow-y': 'auto !important',
-      'max-height': '850px'
+      'max-height': '600px'
   }
 
   

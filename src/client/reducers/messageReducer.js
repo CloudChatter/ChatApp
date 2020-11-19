@@ -20,7 +20,7 @@ const messageReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.ADD_MESSAGE: {
       messages = state.messages.slice(); // make a shallow copy
-      messages.push(action.payload);
+      messages.unshift(action.payload);
       messageCount = messages.length;
 
       return {
