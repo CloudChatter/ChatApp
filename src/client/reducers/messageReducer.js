@@ -42,7 +42,7 @@ const messageReducer = (state = initialState, action) => {
         ...state,
         messages,
         messageCount,
-      }
+      };
     }
 
     case types.LOGIN: {
@@ -60,14 +60,16 @@ const messageReducer = (state = initialState, action) => {
     case types.LOGOUT: {
       usersOnline = state.usersOnline;
       usersOnline -= 1;
-
+      currUser = action.payload;
       return {
         ...state,
         usersOnline,
+        currUser,
       };
     }
 
-    default: return state;
+    default:
+      return state;
   }
 };
 
