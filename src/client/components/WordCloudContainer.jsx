@@ -13,7 +13,7 @@ const WordCloudContainer = () => {
 
   useEffect(() => {
     setWordCountData(makeWordCountData())
-  }, [])
+  }, [messages])
 
   
 
@@ -34,8 +34,8 @@ const WordCloudContainer = () => {
     for (let [word, count] of Object.entries(wordCount)) {
       data.push({ 'text': word, 'value': count })
     }
-    setTimeout(() => setWordCountData(makeWordCountData()), 5000)
-    console.log('words from word count data', data)
+    // setTimeout(() => setWordCountData(makeWordCountData()), 5000)
+    // console.log('words from word count data', data)
     return data;
   }
 
