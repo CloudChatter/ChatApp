@@ -46,16 +46,32 @@ const messageReducer = (state = initialState, action) => {
         messageCount,
       }
     }
+    case types.BUILD_USER_DATA: {
+      usersOnline = action.payload.usersOnline
+      const socketIDs = action.payload.socketIDs
+      listOfUsersOnline = listOfUsersOnline = JSON.parse(JSON.stringify(state.listOfUsersOnline))
+      Object.keys(listOfUsersOnline).forEach((user) => {
+        if (!socketIDs.includes(listOfUsersOnline[user]['socketID'])) {
+          listOfUsersOnline[user] = {
+            username: 'Unknown',
+            profileURL: ""
+          }
+        }
+      });
+      return {
+        ...state,
+        usersOnline,
+        listOfUsersOnline
+      }
+    }
 
     case types.NEW_USER: {
-      let newUser = action.payload
+      const { socketID, username, usersOnline } = action.payload
       listOfUsersOnline = JSON.parse(JSON.stringify(state.listOfUsersOnline))
-      listOfUsersOnline[newUser] = {
-        username: newUser,
-        profileURL: ""
+      listOfUsersOnline[username] = {
+        username,
+        socketID,
       }
-      usersOnline = state.usersOnline;
-      usersOnline += 1
       return {
         ...state,
         usersOnline,

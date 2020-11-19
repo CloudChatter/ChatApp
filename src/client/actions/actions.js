@@ -12,7 +12,11 @@ export const getMessages = (latestMessages) => ({
 
 export const getMessages = (newUsername) => ({
   type: types.NEW_USER,
-  payload: newUsername,
+  payload: latestMessages,
+})
+export const buildUserData = (userData) => ({
+  type: types.BUILD_USER_DATA,
+  payload: userData,
 })
 
 // export const editMessage = (text) => ({

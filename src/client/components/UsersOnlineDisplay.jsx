@@ -15,11 +15,19 @@ const socket = io('http://localhost:3000');
       console.log('new user joined!', data);
       dispatch({ type: 'NEW_USER', payload: data})
     })
+
+    socket.on('all user data', (data) => {
+      console.log('loading all websocket user data')
+      dispatch({type: 'BUILD_USER_DATA', payload: data})
+    })
+
+
   }, [])
 
-  const userList = Object.keys(listOfUsersOnline).map((username) => {
+  const userList = Object.entries(listOfUsersOnline).map(([ key, value ]) => {
     // if (username === currUser) return;
-    return <UsersOnlineSingleProfile  username={username}/>
+    console.log('user in list:', key)
+    return <UsersOnlineSingleProfile  username={key}/>
   })
 
   return (

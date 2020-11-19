@@ -67,8 +67,8 @@ export const Chat = () => {
       .catch((error) => {
         console.log(error);
       });
-
-    
+      // as the last step when data is loaded, we will get all user data (from the socket)
+    socket.emit('get all data');
   }, []);
 
   // send the fact that a new user has joined to everyone else
