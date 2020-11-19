@@ -14,10 +14,14 @@ export const getMessages = (newUsername) => ({
   type: types.NEW_USER,
   payload: latestMessages,
 })
-export const buildUserData = (userData) => ({
-  type: types.BUILD_USER_DATA,
-  payload: userData,
+export const userLeft = (socketID) => ({
+  type: types.USER_LEFT,
+  payload: socketID,
 })
+// export const buildUserData = (userData) => ({
+//   type: types.BUILD_USER_DATA,
+//   payload: userData,
+// })
 
 // export const editMessage = (text) => ({
 //   type: types.EDIT_MESSAGE,

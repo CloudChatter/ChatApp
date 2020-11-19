@@ -1,10 +1,9 @@
 import React, {useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import UsersOnlineSingleProfile from './UsersOnlineSingleProfile'
 import io from 'socket.io-client';
 const socket = io('http://localhost:3000');
 
- const UsersOnlineDisplay = () => {
+ const UsersDisplay = () => {
   const dispatch = useDispatch();
   const listOfUsersOnline = useSelector((state) => state.messages.listOfUsersOnline);
   const currUser = useSelector((state) => state.messages.currUser);
@@ -16,18 +15,23 @@ const socket = io('http://localhost:3000');
       dispatch({ type: 'NEW_USER', payload: data})
     })
 
-    socket.on('all user data', (data) => {
-      console.log('loading all websocket user data')
-      dispatch({type: 'BUILD_USER_DATA', payload: data})
+    socket.on('user left', (socketID) => {
+      dispatch({ type: "USER_LEFT", payload: socketID})
     })
 
+    // socket.on('all user data', (data) => {
+    //   console.log('loading all websocket user data')
+    //   dispatch({type: 'BUILD_USER_DATA', payload: data})
+    // })
 
   }, [])
 
   const userList = Object.entries(listOfUsersOnline).map(([ key, value ]) => {
-    // if (username === currUser) return;
-    console.log('user in list:', key)
-    return <UsersOnlineSingleProfile  username={key}/>
+    const styleObj = {}
+    if (!key) return
+    styleObj['color'] = (key === currUser)? "green" : "blue"
+    let name = (key === currUser) ? key : `${key} has joined!`
+    return <li style={styleObj}>{key}</li>
   })
 
   return (
@@ -40,4 +44,4 @@ const socket = io('http://localhost:3000');
   )
 }
 
-export default UsersOnlineDisplay;
+export default UsersDisplay;

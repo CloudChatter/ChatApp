@@ -46,27 +46,44 @@ const messageReducer = (state = initialState, action) => {
         messageCount,
       }
     }
-    case types.BUILD_USER_DATA: {
-      usersOnline = action.payload.usersOnline
-      const socketIDs = action.payload.socketIDs
-      listOfUsersOnline = listOfUsersOnline = JSON.parse(JSON.stringify(state.listOfUsersOnline))
-      Object.keys(listOfUsersOnline).forEach((user) => {
-        if (!socketIDs.includes(listOfUsersOnline[user]['socketID'])) {
-          listOfUsersOnline[user] = {
-            username: 'Unknown',
-            profileURL: ""
-          }
+
+    case types.USER_LEFT: {
+      
+      usersOnline = state.usersOnline - 1;
+      listOfUsersOnline = JSON.parse(JSON.stringify(state.listOfUsersOnline))
+      for (let [username, data] of Object.entries(listOfUsersOnline)) {
+        if (listOfUsersOnline[username]['socketID'] === action.payload) {
+          delete listOfUsersOnline[username]
         }
-      });
+      }
       return {
         ...state,
         usersOnline,
-        listOfUsersOnline
+        listOfUsersOnline,
       }
     }
+    // case types.BUILD_USER_DATA: {
+    //   usersOnline = action.payload.usersOnline
+    //   const socketIDs = action.payload.socketIDs
+    //   listOfUsersOnline = listOfUsersOnline = JSON.parse(JSON.stringify(state.listOfUsersOnline))
+    //   Object.keys(listOfUsersOnline).forEach((user) => {
+    //     if (!socketIDs.includes(listOfUsersOnline[user]['socketID'])) {
+    //       listOfUsersOnline[user] = {
+    //         username: 'Unknown',
+    //         profileURL: ""
+    //       }
+    //     }
+    //   });
+    //   return {
+    //     ...state,
+    //     usersOnline,
+    //     listOfUsersOnline
+    //   }
+    // }
 
     case types.NEW_USER: {
-      const { socketID, username, usersOnline } = action.payload
+      const { socketID, username } = action.payload
+      usersOnline = state.usersOnline + 1;
       listOfUsersOnline = JSON.parse(JSON.stringify(state.listOfUsersOnline))
       listOfUsersOnline[username] = {
         username,

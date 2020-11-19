@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import WordCloudContainer from './WordCloudContainer';
-import UsersOnlineDisplay from './UsersOnlineDisplay';
+import UsersDisplay from './UsersDisplay';
 import io from 'socket.io-client';
 const socket = io('http://localhost:3000');
 
@@ -68,7 +68,7 @@ export const Chat = () => {
         console.log(error);
       });
       // as the last step when data is loaded, we will get all user data (from the socket)
-    socket.emit('get all data');
+    // socket.emit('get all data');
   }, []);
 
   // send the fact that a new user has joined to everyone else
@@ -132,7 +132,7 @@ export const Chat = () => {
           <button onClick={handleSubmitChat}>Post!</button>
         </div>
         {/* {listOfUsersOnline.length > 1 && <UsersOnlineDisplay />} */}
-        <UsersOnlineDisplay />
+        <UsersDisplay />
       </div>
       {!!messages.length && <WordCloudContainer />}
     </div>
