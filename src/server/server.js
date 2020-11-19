@@ -11,9 +11,10 @@ const messageController = require('../server/controllers/messageController');
 const userController = require('./controllers/userController');
 
 // WEBSOCKET CONFIG
-const socketPORT = process.env.PORT || 'http://localhost:3000'
+// https://chatter-cloud.herokuapp.com/
+// const socketPORT = process.env.PORT || 'http://localhost:3000'
 const server = require('http').createServer(app);
-const options = { cors: true, origin: [socketPORT] };
+const options = { cors: true, origin: ['*'] };
 const io = require('socket.io')(server, options);
 
 io.on('connection', (socket) => {
