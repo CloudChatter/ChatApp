@@ -44,7 +44,7 @@ const socket = io("https://chatter-cloud.herokuapp.com/");
 
   return (
     <div>
-      <h4> Users Currently Online: {usersOnline}</h4>
+      <h4> Users that have joined after you:</h4>
       <ul>
         {userList}
       </ul>
